@@ -11,5 +11,9 @@ use AthenaCore\Mvc\Config\MvcConfigProvider;
  */
 class ConfigProvider extends MvcConfigProvider
 {
-
+    public function __invoke(): array
+    {
+        $config = include __DIR__ . '/../config/module.config.php';
+        return $config;
+    }
 }

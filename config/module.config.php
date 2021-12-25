@@ -14,6 +14,7 @@ return [
         'template_map' => [
             'layout/layout' => __DIR__ . '/../view/layout/layout.phtml',
             'athena-core/index/index' => __DIR__ . '/../view/athena-core/index/index.phtml',
+			'athena-core/index/error' => __DIR__ . '/../view/athena-core/index/error.phtml'
             'error/404' => __DIR__ . '/../view/error/404.phtml',
             'error/index' => __DIR__ . '/../view/error/index.phtml',
         ],
