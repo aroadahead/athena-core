@@ -1,2 +1,2 @@
 # athena
-php8 web framework
+web framework core
