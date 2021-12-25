@@ -16,7 +16,6 @@
   },
   "extra": {
     "laminas": {
-      "config-provider": "AthenaCore\\ConfigProvider",
       "module": "AthenaCore"
     }
   },

@@ -7,42 +7,10 @@ use AthenaCore\Application\Controller\IndexController;
 
 return [
     'athena-core' => ['version' => '0.0.1'],
-    'view_manager' => [
-        'display_not_found_reason' => true,
-        'display_exceptions' => true,
-        'doctype' => 'HTML5',
-		'not_found_template' => 'error/404',
-        'exception_template' => 'error/index',
-        'template_map' => [
-            'layout/layout' => __DIR__ . '/../view/layout/layout.phtml',
-            'athena-core/index/index' => __DIR__ . '/../view/athena-core/index/index.phtml',			
-            'error/404' => __DIR__ . '/../view/error/404.phtml',
-            'error/index' => __DIR__ . '/../view/error/index.phtml',
-        ],
-		'template_path_stack' => [
-            __DIR__ . '/../view',
-        ],
-    ],
-    'controllers' => [
-        'factories' => [
-            IndexController::class => IndexControllerFactory::class,
-        ],
-    ],
+    'view_manager' => [],
+    'controllers' => [],
     'service_manager' => [],
-    'router' => [
-        'routes' => [
-            'application' => [
-                'type' => 'literal',
-                'options' => [
-                    'route' => '/',
-                    'defaults' => [
-                        'controller' => IndexController::class,
-                        'action' => 'index',
-                    ],
-                ],
-            ],
-        ],
-    ],
+    'router' => [],
     'translator' => [],
     'view_helpers' => [],
 ];
