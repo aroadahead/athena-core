@@ -3,6 +3,7 @@
 namespace AthenaCore\Mvc\Application\Application\Core;
 
 use AthenaCore\Mvc\Application\Api\Manager\ApiManager;
+use AthenaCore\Mvc\Application\Application\Core\Exception\InvalidManager;
 use AthenaCore\Mvc\Application\Application\Manager\ApplicationManager;
 use AthenaCore\Mvc\Application\Cache\Manager\CacheManager;
 use AthenaCore\Mvc\Application\Config\Manager\ConfigManager;
@@ -59,50 +60,74 @@ abstract class ApplicationCore
         return $this;
     }
 
+    /**
+     * @throws InvalidManager
+     */
     public function setup(): self
     {
         $this -> setupManagers();
         return $this;
     }
 
+    /**
+     * @throws InvalidManager
+     */
     public function init(): self
     {
         $this -> initManagers();
         return $this;
     }
 
+    /**
+     * @throws InvalidManager
+     */
     public function boot(): self
     {
         $this -> bootManagers();
         return $this;
     }
 
+    /**
+     * @throws InvalidManager
+     */
     protected function setupManagers(): void
     {
         array_walk($this -> managers, function ($item) {
             $manager = $item . 'Manager';
             if ($this -> $manager instanceof ApplicationManager) {
                 $this -> $manager -> setup();
+            } else {
+                throw new InvalidManager("Invalid manager: $manager");
             }
         });
     }
 
+    /**
+     * @throws InvalidManager
+     */
     protected function initManagers(): void
     {
         array_walk($this -> managers, function ($item) {
             $manager = $item . 'Manager';
             if ($this -> $manager instanceof ApplicationManager) {
                 $this -> $manager -> init();
+            } else {
+                throw new InvalidManager("Invalid manager: $manager");
             }
         });
     }
 
+    /**
+     * @throws InvalidManager
+     */
     protected function bootManagers(): void
     {
         array_walk($this -> managers, function ($item) {
             $manager = $item . 'Manager';
             if ($this -> $manager instanceof ApplicationManager) {
                 $this -> $manager -> boot();
+            } else {
+                throw new InvalidManager("Invalid manager: $manager");
             }
         });
     }
