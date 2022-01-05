@@ -6,7 +6,7 @@ class ManagerManifest
 {
     public static function getManagerManifest():array
     {
-        return ['environment', 'directory', 'log', 'cache', 'config', 'db', 'design', 'user',
+        return ['environment', 'filesystem', 'log', 'cache', 'config', 'db', 'design', 'user',
             'laminas', 'api'];
     }
 }
