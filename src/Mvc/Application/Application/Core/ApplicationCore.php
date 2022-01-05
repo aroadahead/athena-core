@@ -13,6 +13,7 @@ use AthenaCore\Mvc\Application\Environment\Manager\EnvironmentManager;
 use AthenaCore\Mvc\Application\Filesystem\Manager\FilesystemManager;
 use AthenaCore\Mvc\Application\Laminas\Manager\LaminasManager;
 use AthenaCore\Mvc\Application\Log\Manager\LogManager;
+use AthenaCore\Mvc\Application\Modules\Manager\ModulesManager;
 use AthenaCore\Mvc\Application\User\Manager\UserManager;
 use JetBrains\PhpStorm\Pure;
 use function array_walk;
@@ -29,6 +30,8 @@ abstract class ApplicationCore
     protected UserManager $userManager;
     protected LaminasManager $laminasManager;
     protected ApiManager $apiManager;
+    protected ModulesManager $modulesManager;
+
     protected array $managers = [];
 
     #[Pure] public function __construct()
@@ -43,91 +46,68 @@ abstract class ApplicationCore
         $this -> userManager = new UserManager();
         $this -> laminasManager = new LaminasManager();
         $this -> apiManager = new ApiManager();
+        $this -> modulesManager = new ModulesManager();
         $this -> managers = ManagerManifest ::getManagerManifest();
     }
 
     abstract public function deploy();
 
+    /**
+     * @return $this
+     * @throws InvalidManager
+     */
     public function setCores(): self
     {
         array_walk($this -> managers, function ($item) {
             $manager = $item . 'Manager';
             if ($this -> $manager instanceof ApplicationManager) {
                 $this -> $manager -> setApplicationCore($this);
+            } else {
+                throw new InvalidManager("Invalid manager: $manager");
             }
         });
         return $this;
     }
 
-    /**
-     * @throws InvalidManager
-     */
     public function setup(): self
     {
         $this -> setupManagers();
         return $this;
     }
 
-    /**
-     * @throws InvalidManager
-     */
     public function init(): self
     {
         $this -> initManagers();
         return $this;
     }
 
-    /**
-     * @throws InvalidManager
-     */
     public function boot(): self
     {
         $this -> bootManagers();
         return $this;
     }
 
-    /**
-     * @throws InvalidManager
-     */
     protected function setupManagers(): void
     {
         array_walk($this -> managers, function ($item) {
             $manager = $item . 'Manager';
-            if ($this -> $manager instanceof ApplicationManager) {
-                $this -> $manager -> setup();
-            } else {
-                throw new InvalidManager("Invalid manager: $manager");
-            }
+            $this -> $manager -> setup();
         });
     }
 
-    /**
-     * @throws InvalidManager
-     */
     protected function initManagers(): void
     {
         array_walk($this -> managers, function ($item) {
             $manager = $item . 'Manager';
-            if ($this -> $manager instanceof ApplicationManager) {
-                $this -> $manager -> init();
-            } else {
-                throw new InvalidManager("Invalid manager: $manager");
-            }
+            $this -> $manager -> init();
         });
     }
 
-    /**
-     * @throws InvalidManager
-     */
     protected function bootManagers(): void
     {
         array_walk($this -> managers, function ($item) {
             $manager = $item . 'Manager';
-            if ($this -> $manager instanceof ApplicationManager) {
-                $this -> $manager -> boot();
-            } else {
-                throw new InvalidManager("Invalid manager: $manager");
-            }
+            $this -> $manager -> boot();
         });
     }
 
@@ -226,4 +206,13 @@ abstract class ApplicationCore
     {
         return $this -> laminasManager;
     }
+
+    /**
+     * @return ModulesManager
+     */
+    public function getModulesManager(): ModulesManager
+    {
+        return $this -> modulesManager;
+    }
+
 }

@@ -7,6 +7,6 @@ class ManagerManifest
     public static function getManagerManifest():array
     {
         return ['environment', 'filesystem', 'log', 'cache', 'config', 'db', 'design', 'user',
-            'laminas', 'api'];
+            'laminas', 'api','modules'];
     }
 }
