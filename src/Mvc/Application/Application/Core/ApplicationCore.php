@@ -9,8 +9,8 @@ use AthenaCore\Mvc\Application\Cache\Manager\CacheManager;
 use AthenaCore\Mvc\Application\Config\Manager\ConfigManager;
 use AthenaCore\Mvc\Application\Db\Manager\DbManager;
 use AthenaCore\Mvc\Application\Design\Manager\DesignManager;
-use AthenaCore\Mvc\Application\Directory\Manager\DirectoryManager;
 use AthenaCore\Mvc\Application\Environment\Manager\EnvironmentManager;
+use AthenaCore\Mvc\Application\Filesystem\Manager\FilesystemManager;
 use AthenaCore\Mvc\Application\Laminas\Manager\LaminasManager;
 use AthenaCore\Mvc\Application\Log\Manager\LogManager;
 use AthenaCore\Mvc\Application\User\Manager\UserManager;
@@ -24,14 +24,12 @@ abstract class ApplicationCore
     protected ConfigManager $configManager;
     protected DbManager $dbManager;
     protected DesignManager $designManager;
-    protected DirectoryManager $directoryManager;
+    protected FilesystemManager $filesystemManager;
     protected EnvironmentManager $environmentManager;
     protected UserManager $userManager;
     protected LaminasManager $laminasManager;
     protected ApiManager $apiManager;
-    protected array $managers = ['environment', 'directory', 'log', 'cache', 'config', 'db', 'design', 'user',
-        'laminas', 'api'];
-    protected string $rootPath;
+    protected array $managers = [];
 
     #[Pure] public function __construct()
     {
@@ -40,11 +38,12 @@ abstract class ApplicationCore
         $this -> configManager = new ConfigManager();
         $this -> dbManager = new DbManager();
         $this -> designManager = new DesignManager();
-        $this -> directoryManager = new DirectoryManager();
+        $this -> filesystemManager = new FilesystemManager();
         $this -> environmentManager = new EnvironmentManager();
         $this -> userManager = new UserManager();
         $this -> laminasManager = new LaminasManager();
         $this -> apiManager = new ApiManager();
+        $this -> managers = ManagerManifest ::getManagerManifest();
     }
 
     abstract public function deploy();
@@ -135,9 +134,9 @@ abstract class ApplicationCore
     /**
      * @return string
      */
-    public function getRootPath(): string
+    #[Pure] public function getRootPath(): string
     {
-        return $this -> rootPath;
+        return $this -> filesystemManager -> getRootPath();
     }
 
     /**
@@ -145,7 +144,7 @@ abstract class ApplicationCore
      */
     public function setRootPath(string $rootPath): void
     {
-        $this -> rootPath = $rootPath;
+        $this -> filesystemManager -> setRootPath($rootPath);
     }
 
     /**
@@ -197,11 +196,11 @@ abstract class ApplicationCore
     }
 
     /**
-     * @return DirectoryManager
+     * @return FilesystemManager
      */
-    public function getDirectoryManager(): DirectoryManager
+    public function getFilesystemManager(): FilesystemManager
     {
-        return $this -> directoryManager;
+        return $this -> filesystemManager;
     }
 
     /**
