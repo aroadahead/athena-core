@@ -8,6 +8,41 @@ use AthenaCore\Mvc\Application\Application\Manager\ApplicationManager;
 
 class EnvironmentManager extends ApplicationManager
 {
+    protected float $versionNumber;
+    protected string $versionName;
+
+    /**
+     * @return float
+     */
+    public function getVersionNumber(): float
+    {
+        return $this -> versionNumber;
+    }
+
+    /**
+     * @param float $versionNumber
+     */
+    public function setVersionNumber(float $versionNumber): void
+    {
+        $this -> versionNumber = $versionNumber;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVersionName(): string
+    {
+        return $this -> versionName;
+    }
+
+    /**
+     * @param string $versionName
+     */
+    public function setVersionName(string $versionName): void
+    {
+        $this -> versionName = $versionName;
+    }
+
 
     public function setup(): void
     {
