@@ -4,6 +4,7 @@ namespace AthenaCore\Mvc\Application\Config\Facade;
 
 use AthenaCore\Mvc\Application\Config\Manager\ConfigManager;
 use AthenaCore\Service\Front\JsLocalStorageTrait;
+use Poseidon\Data\DataObject;
 
 class Facade
 {
@@ -11,5 +12,6 @@ class Facade
 
     public function __construct(protected ConfigManager $configManager)
     {
+        $this->jsLocalStorage = new DataObject();
     }
 }
