@@ -12,9 +12,13 @@ class EnvironmentManager extends ApplicationManager
 {
     protected float $versionNumber;
     protected string $versionName;
-    protected DataObject $jsLocalStorage;
 
     use JsLocalStorageTrait;
+
+    public function __construct()
+    {
+        $this -> jsLocalStorage = new DataObject();
+    }
 
     /**
      * @return float
