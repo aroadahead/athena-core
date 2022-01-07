@@ -11,6 +11,11 @@ class Facade
 
     }
 
+    public function configLaminas():string
+    {
+        return $this->config().'/laminas';
+    }
+
     public function configProject():string
     {
         return $this->config().'/project';

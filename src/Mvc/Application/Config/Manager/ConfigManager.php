@@ -14,7 +14,6 @@ use phpseclib3\Exception\FileNotFoundException;
 use function array_walk;
 use function is_dir;
 use function is_file;
-use function var_dump;
 
 class ConfigManager extends ApplicationManager
 {
@@ -32,9 +31,9 @@ class ConfigManager extends ApplicationManager
         $this -> nodeLookup = new NodeLookup($this -> masterConfig);
     }
 
-    public function facade():Facade
+    public function facade(): Facade
     {
-        return $this->facade;
+        return $this -> facade;
     }
 
     public function set(string $node, mixed $data): void
@@ -76,11 +75,10 @@ class ConfigManager extends ApplicationManager
 
     public function setup(): void
     {
-        $this->facade = new Facade($this);
-        $configDir = $this->applicationCore->getFilesystemManager()
-            ->getDirectoryPaths()->facade()->configProject();
-        $this->load($configDir);
-        var_dump($this->lookup('design.config.html.title'));
+        $this -> facade = new Facade($this);
+        $configDir = $this -> applicationCore -> getFilesystemManager()
+            -> getDirectoryPaths() -> facade() -> configProject();
+        $this -> load($configDir);
     }
 
     public function init(): void
