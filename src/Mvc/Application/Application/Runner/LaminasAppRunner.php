@@ -16,8 +16,8 @@ class LaminasAppRunner extends ApplicationCore
         $this -> environmentManager -> addJsLocalStorageItem('dist', 'shard');
         $this -> configManager -> facade() -> addJsLocalStorageItem('configItem', 'someVal');
 
-        $path = $this -> getFilesystemManager() -> getDirectoryPaths() -> facade() -> configLaminas();
-        $appConfig = require $path . '/application.config.php';
+        $appConfig = $this -> configManager -> lookup('laminas.application', true);
+        $appConfig['modules'] = $this -> configManager -> lookup('laminas.modules', true);
         Application ::init($appConfig) -> run();
     }
 }

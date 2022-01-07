@@ -11,18 +11,43 @@ class Facade
 
     }
 
-    public function configLaminas():string
+    public function log(): string
     {
-        return $this->config().'/laminas';
+        return $this -> getPath('log');
     }
 
-    public function configProject():string
+    public function docs(): string
     {
-        return $this->config().'/project';
+        return $this -> getPath('docs');
     }
 
-    public function config():string
+    public function htmlpublic(): string
     {
-        return $this->directoryPaths->getPath('config');
+        return $this -> getPath('public');
+    }
+
+    public function reactSrc(): string
+    {
+        return $this -> getPath('reactSrc');
+    }
+
+    public function data(): string
+    {
+        return $this -> getPath('data');
+    }
+
+    public function cache(): string
+    {
+        return $this -> getPath('cache');
+    }
+
+    public function config(): string
+    {
+        return $this -> getPath('config');
+    }
+
+    public function getPath(string $name): string
+    {
+        return $this -> directoryPaths -> getPath($name);
     }
 }
