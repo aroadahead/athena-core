@@ -16,7 +16,7 @@ class DirectoryLoader
         $di = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
         foreach ($di as $p) {
             if ($p -> isDir()) {
-                if (in_array($p -> getName(), $excludeRootPaths)) {
+                if (in_array($p -> getFilename(), $excludeRootPaths)) {
                     continue;
                 }
             }
