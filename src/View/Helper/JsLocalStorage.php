@@ -2,9 +2,8 @@
 
 namespace AthenaCore\View\Helper;
 
+use Laminas\Json\Json;
 use function array_merge;
-use function is_float;
-use function is_int;
 use function iterator_to_array;
 
 class JsLocalStorage extends ViewHelper
@@ -15,15 +14,8 @@ class JsLocalStorage extends ViewHelper
         $userJsStorage = iterator_to_array($core -> getUserManager() -> getAllJsLocalStorageItems());
         $envJsStorage = iterator_to_array($core -> getEnvironmentManager() -> getAllJsLocalStorageItems());
         $jsStorage = array_merge($envJsStorage, $userJsStorage);
-        $js = '<script>' . PHP_EOL;
-        $js .= 'const storage=window.localStorage;' . PHP_EOL;
-        foreach ($jsStorage as $k => $v) {
-            if (is_int($v) || is_float($v)) {
-                $js .= 'storage.setItem(\'' . $k . '\',' . $v . ');' . PHP_EOL;
-            } else {
-                $js .= 'storage.setItem(\'' . $k . '\',\'' . $v . '\');' . PHP_EOL;
-            }
-        }
+        $js = PHP_EOL . '<script>' . PHP_EOL;
+        $js .= 'window.localStorage.setItem(\'app:data:persist\',JSON.stringify(' . Json ::encode($jsStorage) . '));';
         $js .= '</script>';
         return $js;
     }
