@@ -20,7 +20,7 @@
     }
   },
   "require": {
-    "yonatonreid/jrk-bridge": "dev-main",
+    "aroadahead/athena-dependencies": "dev-main",
     "yonatonreid/elephantsdk": "dev-main"
   },
   "require-dev": {

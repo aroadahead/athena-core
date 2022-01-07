@@ -9,5 +9,8 @@ namespace AthenaCore\Mvc\Service;
  */
 abstract class MvcService
 {
-
+    public function hello():string
+    {
+        return 'hello';
+    }
 }
