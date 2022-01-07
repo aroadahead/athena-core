@@ -9,6 +9,11 @@ trait JsLocalStorageTrait
 {
     protected ?DataObject $jsLocalStorage=null;
 
+    public function __construct()
+    {
+        $this->jsLocalStorage = new DataObject();
+    }
+
     public function getAllJsLocalStorageItems(): Traversable
     {
         return $this -> jsLocalStorage -> getIterator();
