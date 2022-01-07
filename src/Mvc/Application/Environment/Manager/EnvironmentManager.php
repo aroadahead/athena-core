@@ -5,11 +5,16 @@ declare(strict_types=1);
 namespace AthenaCore\Mvc\Application\Environment\Manager;
 
 use AthenaCore\Mvc\Application\Application\Manager\ApplicationManager;
+use AthenaCore\View\Helper\JsLocalStorageTrait;
+use Poseidon\Data\DataObject;
 
 class EnvironmentManager extends ApplicationManager
 {
     protected float $versionNumber;
     protected string $versionName;
+    protected DataObject $jsLocalStorage;
+
+    use JsLocalStorageTrait;
 
     /**
      * @return float
