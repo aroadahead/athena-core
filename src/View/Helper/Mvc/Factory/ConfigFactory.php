@@ -4,11 +4,9 @@ namespace AthenaCore\View\Helper\Mvc\Factory;
 
 use AthenaCore\View\Helper\Mvc\Config;
 use Interop\Container\ContainerInterface;
-use Interop\Container\Exception\ContainerException;
-use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
-use Laminas\ServiceManager\Exception\ServiceNotFoundException;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
-class ConfigFactory implements \Laminas\ServiceManager\Factory\FactoryInterface
+class ConfigFactory implements FactoryInterface
 {
 
     /**
