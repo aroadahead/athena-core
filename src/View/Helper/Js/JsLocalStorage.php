@@ -6,7 +6,7 @@ use AthenaCore\View\Helper\ViewHelper;
 use Laminas\Json\Json;
 use function array_merge;
 use function iterator_to_array;
-use const AthenaCore\View\Helper\PHP_EOL;
+use const PHP_EOL;
 
 class JsLocalStorage extends ViewHelper
 {
