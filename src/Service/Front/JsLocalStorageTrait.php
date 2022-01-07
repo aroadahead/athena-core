@@ -1,6 +1,6 @@
 <?php
 
-namespace AthenaCore\View\Helper;
+namespace AthenaCore\Service\Front;
 
 use Poseidon\Data\DataObject;
 use Traversable;

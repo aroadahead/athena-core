@@ -13,7 +13,8 @@ class JsLocalStorage extends ViewHelper
         $core = $this -> getCore();
         $userJsStorage = iterator_to_array($core -> getUserManager() -> getAllJsLocalStorageItems());
         $envJsStorage = iterator_to_array($core -> getEnvironmentManager() -> getAllJsLocalStorageItems());
-        $jsStorage = array_merge($envJsStorage, $userJsStorage);
+        $configJsStorage = iterator_to_array($core -> getConfigManager() -> facade() -> getAllJsLocalStorageItems());
+        $jsStorage = array_merge($configJsStorage, $envJsStorage, $userJsStorage);
         $js = PHP_EOL . '<script>' . PHP_EOL;
         $js .= 'window.localStorage.setItem(\'app:data:persist\',JSON.stringify(' . Json ::encode($jsStorage) . '));';
         $js .= '</script>';
