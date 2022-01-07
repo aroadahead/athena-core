@@ -10,6 +10,11 @@ class UserManager extends ApplicationManager
 {
     use JsLocalStorageTrait;
 
+    public function __construct()
+    {
+        $this -> jsLocalStorage = new DataObject();
+    }
+
     public function setup(): void
     {
         // TODO: Implement setup() method.

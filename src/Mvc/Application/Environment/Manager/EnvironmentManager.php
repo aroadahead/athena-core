@@ -15,6 +15,11 @@ class EnvironmentManager extends ApplicationManager
 
     use JsLocalStorageTrait;
 
+    public function __construct()
+    {
+        $this -> jsLocalStorage = new DataObject();
+    }
+
     /**
      * @return float
      */
