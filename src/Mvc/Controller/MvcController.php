@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace AthenaCore\Mvc\Controller;
 
 use AthenaCore\Mvc\Service\MvcService;
-use Bridge\Laminas\Mvc\Controller\AbstractActionController;
+use Laminas\Mvc\Controller\AbstractActionController;
 use Elephant\Reflection\ReflectionClass;
 use Interop\Container\ContainerInterface;
 use Laminas\Filter\Word\CamelCaseToDash;
