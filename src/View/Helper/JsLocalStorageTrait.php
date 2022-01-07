@@ -7,7 +7,7 @@ use Traversable;
 
 trait JsLocalStorageTrait
 {
-    protected DataObject $jsLocalStorage;
+    protected ?DataObject $jsLocalStorage=null;
 
     public function getAllJsLocalStorageItems(): Traversable
     {
