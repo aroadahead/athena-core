@@ -10,13 +10,7 @@ return [
     'athena-core' => ['version' => '0.0.1'],
     'view_manager' => [],
     'controllers' => [],
-    'service_manager' => [
-        'factories' => [
-            'core' => function(){
-                return Poseidon::getCore();
-            }
-        ]
-    ],
+    'service_manager' => [],
     'router' => [],
     'translator' => [],
     'view_helpers' => [
