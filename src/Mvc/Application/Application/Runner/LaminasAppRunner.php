@@ -10,8 +10,12 @@ class LaminasAppRunner extends ApplicationCore
 
     public function deploy()
     {
-        $rootPath = $this->getRootPath();
-        $appConfig = require $rootPath.'/config/application.config.php';
-        Application::init($appConfig)->run();
+        $this -> userManager -> addJsLocalStorageItem('locale', 'en_US');
+        $this -> userManager -> addJsLocalStorageItem('pubKey', '6asd68d68ddd6saadd79asd7das79ads9');
+        $this -> environmentManager -> addJsLocalStorageItem('version', '0.0.1');
+        $this -> environmentManager -> addJsLocalStorageItem('dist', 'shard');
+        $rootPath = $this -> getRootPath();
+        $appConfig = require $rootPath . '/config/application.config.php';
+        Application ::init($appConfig) -> run();
     }
 }
