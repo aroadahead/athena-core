@@ -10,11 +10,9 @@ class DirectoryPaths extends \Poseidon\Data\DataObject
 {
     public function loadPaths(array $paths, array $overridePaths): void
     {
-        $paths = [];
         array_walk($paths, function ($item, $key) {
             $this -> setItem($key, $item);
         });
-        $overridePaths = [];
         array_walk($overridePaths, function ($item, $key) {
             $this -> setItem($key, $item);
         });
