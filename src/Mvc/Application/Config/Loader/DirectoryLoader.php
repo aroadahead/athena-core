@@ -13,6 +13,7 @@ class DirectoryLoader
 {
     public function load(string $path): array
     {
+        $files = [];
         $di = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path));
         foreach ($di as $p) {
             if (!$p -> isDir()) {
