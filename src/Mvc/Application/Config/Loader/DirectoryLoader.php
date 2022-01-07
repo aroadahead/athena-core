@@ -2,7 +2,7 @@
 
 namespace AthenaCore\Mvc\Application\Config\Loader;
 
-use _PHPStan_27bc69bf9\Symfony\Component\Finder\Iterator\RecursiveDirectoryIterator;
+use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use function array_push;
 use function array_walk;
