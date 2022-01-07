@@ -3,11 +3,19 @@
 namespace AthenaCore\Mvc\Application\Filesystem\Manager\Directory;
 
 use AthenaCore\Mvc\Application\Filesystem\Manager\Directory\Exception\PathNotExists;
+use AthenaCore\Mvc\Application\Filesystem\Manager\Directory\Facade\Facade;
 use function array_walk;
 use function str_ireplace;
 
 class DirectoryPaths extends \Poseidon\Data\DataObject
 {
+    protected ?Facade $facade = null;
+
+    public function __construct(array $data = [])
+    {
+        parent ::__construct($data);
+    }
+
     public function loadPaths(array $paths, array $overridePaths): void
     {
         array_walk($paths, function ($item, $key) {
@@ -16,8 +24,13 @@ class DirectoryPaths extends \Poseidon\Data\DataObject
         array_walk($overridePaths, function ($item, $key) {
             $this -> setItem($key, $item);
         });
+        $this->facade = new Facade($this);
     }
 
+    public function facade():Facade
+    {
+        return $this->facade;
+    }
 
     public function getPath(string $name): string
     {

@@ -52,6 +52,11 @@ class FilesystemManager extends ApplicationManager
         $this -> directoryPaths -> loadPaths($paths, $overridePaths);
     }
 
+    public function getDirectoryPaths():DirectoryPaths
+    {
+        return $this->directoryPaths;
+    }
+
     public function getPath(string $name): string
     {
         return $this -> directoryPaths -> getPath($name);
