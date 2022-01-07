@@ -53,7 +53,7 @@ class ConfigManager extends ApplicationManager
         return $data;
     }
 
-    public function load(string $path): void
+    public function load(string $path,array $excludeRootPaths=[]): void
     {
         if (!is_file($path) && !is_dir($path)) {
             throw new FileNotFoundException("invalid file config path: $path");
@@ -61,7 +61,7 @@ class ConfigManager extends ApplicationManager
         if (is_file($path)) {
             $this -> merge($this -> fileLoader -> loadFile($path));
         } else {
-            $files = $this -> directoryLoader -> load($path);
+            $files = $this -> directoryLoader -> load($path,$excludeRootPaths);
             array_walk($files, function ($item) {
                 $this -> merge($this -> fileLoader -> loadFile($item));
             });
@@ -78,7 +78,7 @@ class ConfigManager extends ApplicationManager
         $this -> facade = new Facade($this);
         $configDir = $this -> applicationCore -> getFilesystemManager()
             -> getDirectoryPaths() -> facade() -> config();
-        $this -> load($configDir);
+        $this -> load($configDir,['laminas']);
     }
 
     public function init(): void
