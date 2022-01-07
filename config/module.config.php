@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-use AthenaCore\View\Helper\Factory\JsLocalStorageFactory;
-use AthenaCore\View\Helper\JsLocalStorage;
-use Poseidon\Poseidon;
+use AthenaCore\View\Helper\Js\Factory\JsLocalStorageFactory;
+use AthenaCore\View\Helper\Js\JsLocalStorage;
+use AthenaCore\View\Helper\Mvc\Config;
+use AthenaCore\View\Helper\Mvc\Factory\ConfigFactory;
 
 return [
     'athena-core' => ['version' => '0.0.1'],
@@ -15,10 +16,12 @@ return [
     'translator' => [],
     'view_helpers' => [
         'factories' => [
-            JsLocalStorage::class => JsLocalStorageFactory::class
+            JsLocalStorage::class => JsLocalStorageFactory::class,
+            Config::class => ConfigFactory::class
         ],
         'aliases' => [
-            'jsLocalStorage' => JsLocalStorage::class
+            'jsLocalStorage' => JsLocalStorage::class,
+            'config' => Config::class
         ]
     ],
 ];

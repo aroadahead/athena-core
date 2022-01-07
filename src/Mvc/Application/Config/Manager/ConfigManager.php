@@ -80,7 +80,6 @@ class ConfigManager extends ApplicationManager
         $configDir = $this -> applicationCore -> getFilesystemManager()
             -> getDirectoryPaths() -> facade() -> config();
         $this -> load($configDir,['laminas']);
-        var_dump($this->lookup('foo'));
     }
 
     public function init(): void

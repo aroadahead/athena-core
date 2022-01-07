@@ -1,12 +1,9 @@
 <?php
 
-namespace AthenaCore\View\Helper\Factory;
+namespace AthenaCore\View\Helper\Js\Factory;
 
-use AthenaCore\View\Helper\JsLocalStorage;
+use AthenaCore\View\Helper\Js\JsLocalStorage;
 use Interop\Container\ContainerInterface;
-use Interop\Container\Exception\ContainerException;
-use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
-use Laminas\ServiceManager\Exception\ServiceNotFoundException;
 use Laminas\ServiceManager\Factory\FactoryInterface;
 
 class JsLocalStorageFactory implements FactoryInterface
