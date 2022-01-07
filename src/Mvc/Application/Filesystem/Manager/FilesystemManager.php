@@ -43,7 +43,7 @@ class FilesystemManager extends ApplicationManager
         ];
         $overridePaths = [];
         $this -> directoryPaths -> loadPaths($paths, $overridePaths);
-        var_dump($this->directoryPaths->getPath('config'));
+        var_dump($this->directoryPaths->getConfigPath());
     }
 
     public function getPath(string $name): string
