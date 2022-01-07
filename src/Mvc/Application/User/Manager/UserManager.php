@@ -5,7 +5,6 @@ namespace AthenaCore\Mvc\Application\User\Manager;
 use AthenaCore\Mvc\Application\Application\Manager\ApplicationManager;
 use AthenaCore\View\Helper\JsLocalStorageTrait;
 use Poseidon\Data\DataObject;
-use Traversable;
 
 class UserManager extends ApplicationManager
 {
