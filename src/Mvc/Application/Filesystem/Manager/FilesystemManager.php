@@ -38,12 +38,18 @@ class FilesystemManager extends ApplicationManager
 
     public function setup(): void
     {
+        $rootPath = $this->getRootPath();
         $paths = [
-            'config' => $this->getRootPath().'/config'
+            'config' => $rootPath.'/config',
+            'data' => $rootPath.'/data',
+            'log' => $rootPath.'/data/log',
+            'cache' => $rootPath .'/data/cache',
+            'docs' => $rootPath.'/docs',
+            'public' => $rootPath.'/public',
+            'reactSrc' => $rootPath.'/public/src'
         ];
         $overridePaths = [];
         $this -> directoryPaths -> loadPaths($paths, $overridePaths);
-        var_dump($this->directoryPaths->getConfigPath());
     }
 
     public function getPath(string $name): string
