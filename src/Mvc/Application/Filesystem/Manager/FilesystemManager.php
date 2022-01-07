@@ -5,11 +5,19 @@ declare(strict_types=1);
 namespace AthenaCore\Mvc\Application\Filesystem\Manager;
 
 use AthenaCore\Mvc\Application\Application\Manager\ApplicationManager;
+use AthenaCore\Mvc\Application\Filesystem\Manager\Directory\DirectoryPaths;
+use function var_dump;
 
 class FilesystemManager extends ApplicationManager
 {
 
     protected string $rootPath;
+    protected DirectoryPaths $directoryPaths;
+
+    public function __construct()
+    {
+        $this -> directoryPaths = new DirectoryPaths();
+    }
 
     /**
      * @return string
@@ -30,7 +38,17 @@ class FilesystemManager extends ApplicationManager
 
     public function setup(): void
     {
-        // TODO: Implement setup() method.
+        $paths = [
+            'config' => $this->getRootPath().'/config'
+        ];
+        $overridePaths = [];
+        $this -> directoryPaths -> loadPaths($paths, $overridePaths);
+        var_dump($this->directoryPaths->getPath('config'));
+    }
+
+    public function getPath(string $name): string
+    {
+        return $this -> directoryPaths -> getPath($name);
     }
 
     public function init(): void
