@@ -77,7 +77,7 @@ class ConfigManager extends ApplicationManager
     {
         $this -> facade = new Facade($this);
         $configDir = $this -> applicationCore -> getFilesystemManager()
-            -> getDirectoryPaths() -> facade() -> configProject();
+            -> getDirectoryPaths() -> facade() -> config();
         $this -> load($configDir);
     }
 
