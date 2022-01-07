@@ -3,7 +3,7 @@
 namespace AthenaCore\Mvc\Application\User\Manager;
 
 use AthenaCore\Mvc\Application\Application\Manager\ApplicationManager;
-use AthenaCore\View\Helper\JsLocalStorageTrait;
+use AthenaCore\Service\Front\JsLocalStorageTrait;
 use Poseidon\Data\DataObject;
 
 class UserManager extends ApplicationManager
