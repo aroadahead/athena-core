@@ -93,14 +93,15 @@ class LogManager extends ApplicationManager
         });
         $dbConfig = $config -> get('db');
         if ($dbConfig -> enabled) {
-            $writer = new Db($dbConfig -> db_adapter, $dbConfig -> table_name, $dbConfig -> columnMap);
+            $adapter = $this -> applicationCore -> getDbManager() -> masterAdapter();
+            $writer = new Db($adapter, $dbConfig -> table_name, $dbConfig -> columnMap);
             $priority = new Priority($dbConfig -> priority_level);
             $writer -> addFilter($priority);
             $this -> logger -> addWriter($writer);
         }
         $writer = new Noop();
         $this -> logger -> addWriter($writer);
-        $this->facade = new Facade($this);
+        $this -> facade = new Facade($this);
     }
 
     public function boot(): void
@@ -108,9 +109,9 @@ class LogManager extends ApplicationManager
         // TODO: Implement boot() method.
     }
 
-    public function facade():Facade
+    public function facade(): Facade
     {
-        return $this->facade;
+        return $this -> facade;
     }
 
     /**

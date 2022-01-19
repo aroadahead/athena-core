@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AthenaCore\Mvc\Application\Environment\Manager;
 
 use AthenaCore\Mvc\Application\Application\Manager\ApplicationManager;
+use AthenaCore\Mvc\Application\Environment\Manager\Exception\RequiredEnvNotFound;
 use AthenaCore\Service\Front\JsLocalStorageTrait;
 use Poseidon\Data\DataObject;
 
@@ -50,6 +51,24 @@ class EnvironmentManager extends ApplicationManager
     public function setVersionName(string $versionName): void
     {
         $this -> versionName = $versionName;
+    }
+
+    #[Pure] public function getOptionalEnv(string $key): string|null
+    {
+        $val = getenv($key, true);
+        if($val !==false){
+            return $val;
+        }
+        return null;
+    }
+
+    public function getRequiredEnv(string $key): string
+    {
+        $val = getenv($key,true);
+        if(!$val){
+            throw new RequiredEnvNotFound("Required env not found: $key");
+        }
+        return $val;
     }
 
 
