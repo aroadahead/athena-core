@@ -94,7 +94,7 @@ class LogManager extends ApplicationManager
         $dbConfig = $config -> get('db');
         if ($dbConfig -> enabled) {
             $adapter = $this -> applicationCore -> getDbManager() -> masterAdapter();
-            $writer = new Db($adapter, $dbConfig -> table_name, $dbConfig -> columnMap);
+            $writer = new Db($adapter, $dbConfig -> table_name, $dbConfig -> columnMap->toArray());
             $priority = new Priority($dbConfig -> priority_level);
             $writer -> addFilter($priority);
             $this -> logger -> addWriter($writer);
