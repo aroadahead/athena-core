@@ -82,11 +82,11 @@ class LogManager extends ApplicationManager
         $this -> logger = new Logger();
         $fileConfig = $config -> get('file') -> toArray();
         array_walk($fileConfig, function ($item) {
-            if ($item -> enabled) {
-                $args = $item -> args -> toArray();
-                $args = array_merge($args, ['stream' => $this -> logFile($args['stream'], $item -> rotate_by_day)]);
+            if ($item['enabled']) {
+                $args = $item['args'];
+                $args = array_merge($args, ['stream' => $this -> logFile($args['stream'], $item['rotate_by_day'])]);
                 $writer = new Stream($args);
-                $priority = new Priority($item -> priority_level);
+                $priority = new Priority($item['priority_level']);
                 $writer -> addFilter($priority);
                 $this -> logger -> addWriter($writer);
             }
