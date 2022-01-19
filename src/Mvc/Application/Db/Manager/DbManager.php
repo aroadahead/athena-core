@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AthenaCore\Mvc\Application\Db\Manager;
 
 use AthenaCore\Mvc\Application\Application\Manager\ApplicationManager;
+use Laminas\Db\Adapter\Adapter;
 
 class DbManager extends ApplicationManager
 {
@@ -22,5 +23,13 @@ class DbManager extends ApplicationManager
     public function boot(): void
     {
         // TODO: Implement boot() method.
+    }
+
+    public function masterAdapter():Adapter{
+
+    }
+
+    public function slaveAdapter():Adapter{
+
     }
 }
