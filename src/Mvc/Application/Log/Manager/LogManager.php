@@ -128,7 +128,7 @@ class LogManager extends ApplicationManager
             $yesterday = $today -> sub(new DateInterval("P1D"));
             $yesterdayDate = $yesterday -> format('Ymd');
             $yesterdayFile = $logFile . '.' . $yesterdayDate;
-            if (!file_exists($yesterdayFile)) {
+            if (!file_exists($yesterdayFile) && file_exists($logFile)) {
                 rename($logFile, $yesterdayFile);
             }
         }
