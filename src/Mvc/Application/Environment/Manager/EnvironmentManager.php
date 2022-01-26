@@ -102,7 +102,7 @@ class EnvironmentManager extends ApplicationManager
 
     public function getPaths():array
     {
-        return $this->config->paths->toArray();
+        return $this->config->paths;
     }
 
 
