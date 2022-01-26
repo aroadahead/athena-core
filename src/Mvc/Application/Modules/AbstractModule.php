@@ -3,6 +3,7 @@
 namespace AthenaCore\Mvc\Application\Modules;
 
 use AthenaCore\Mvc\Application\Application\Core\ApplicationCore;
+use Laminas\EventManager\EventInterface;
 use Laminas\ModuleManager\ModuleEvent;
 use Laminas\ModuleManager\ModuleManagerInterface;
 use Laminas\Mvc\ModuleRouteListener;
@@ -41,7 +42,7 @@ abstract class AbstractModule
         $events -> attach(ModuleEvent::EVENT_LOAD_MODULE, [$this, 'loadModule']);
     }
 
-    public function onBootstrap(ModuleEvent $e): void
+    public function onBootstrap(EventInterface $e): void
     {
         $app = $e -> getApplication();
         $moduleRouteListener = new ModuleRouteListener();
