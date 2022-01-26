@@ -1,6 +1,7 @@
 <?php
 return [
-    'module' => ['version' => '0.0.1'],
+    'version' => '0.0.1',
+    'author' => 'jrk',
     'listeners' => [
         ['service'=>'coreListener','enabled'=>true,'priority'=>10000]
     ],
