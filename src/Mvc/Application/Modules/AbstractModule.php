@@ -8,12 +8,14 @@ use Laminas\ModuleManager\ModuleEvent;
 use Laminas\ModuleManager\ModuleManagerInterface;
 use Laminas\Mvc\ModuleRouteListener;
 use Poseidon\Poseidon;
+use function var_dump;
 
 abstract class AbstractModule
 {
     protected string $namespaceName;
     protected ModuleManagerInterface $moduleManager;
     protected ApplicationCore $applicationCore;
+    protected array $listenerConfig;
 
     public function __construct()
     {
@@ -47,7 +49,8 @@ abstract class AbstractModule
         $app = $e -> getApplication();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener -> attach($app -> getEventManager());
-        $config = $e -> getConfigListener() -> getMergedConfig(false);
+        $config = $this->listenerConfig;
+        var_dump($config);
         if (isset($config['listeners'])) {
             foreach ($config['listeners'] as $listener) {
                 if ($listener['enabled']) {
@@ -78,5 +81,7 @@ abstract class AbstractModule
 
     public function onMergeConfig(ModuleEvent $e)
     {
+        $app = $e -> getApplication();
+        $this->listenerConfig = $e -> getConfigListener() -> getMergedConfig(false);
     }
 }

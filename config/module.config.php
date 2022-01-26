@@ -9,7 +9,9 @@ use AthenaCore\View\Helper\Mvc\Factory\ConfigFactory;
 
 return [
     'athena-core' => ['version' => '0.0.1'],
-    'listeners' => [],
+    'listeners' => [
+        ['service'=>'bar','enabled'=>false]
+    ],
     'view_manager' => [],
     'controllers' => [],
     'service_manager' => [],
