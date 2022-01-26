@@ -22,6 +22,7 @@ class EnvironmentManager extends ApplicationManager
     {
         $this -> jsLocalStorage = new DataObject();
         $this->dotenv = new Dotenv();
+        $this->dotenv->usePutenv(true);
     }
 
     /**
