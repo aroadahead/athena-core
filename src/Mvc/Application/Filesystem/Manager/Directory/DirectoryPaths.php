@@ -27,8 +27,6 @@ class DirectoryPaths extends \Poseidon\Data\DataObject
             if (!is_dir($item['path'])) {
                 if ($item['create']) {
                     mkdir($item['path'], $item['mode'],true);
-                    chown($item['path'],$item['owner']);
-                    chgrp($item['path'],$item['group']);
                 } else {
                     throw new \Exception("path {$item['path']} does not exist!");
                 }
