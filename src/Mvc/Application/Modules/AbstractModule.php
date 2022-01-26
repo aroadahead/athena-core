@@ -18,6 +18,7 @@ abstract class AbstractModule
     protected ModuleManagerInterface $moduleManager;
     protected ApplicationCore $applicationCore;
     protected string $dir;
+    protected Config $configMaster;
 
     public function __construct()
     {
@@ -51,18 +52,28 @@ abstract class AbstractModule
         $app = $e -> getApplication();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener -> attach($app -> getEventManager());
-        $modConfigFile = realpath($this -> dir . '/../') . '/config/athena.module.config.php';
-        if (file_exists($modConfigFile)) {
-            $config = new Config(include_once $modConfigFile);
-            if (isset($config -> listeners)) {
-                foreach ($config -> listeners as $listener) {
-                    if ($listener -> enabled) {
-                        $service = $app -> getServiceManager() -> get($listener -> service);
-                        $service -> attach($app -> getEventManager(), $listener -> priority);
-                    }
+        if ($this -> applicationCore -> getCacheManager() -> hasData($this -> namespaceName . '_config')) {
+            $config = $this -> applicationCore -> getCacheManager() -> getDataAsArrayOrObject(
+                $this -> namespaceName . '_config');
+        } else {
+            $modConfigFile = realpath($this -> dir . '/../') . '/config/athena.module.config.php';
+            if (file_exists($modConfigFile)) {
+                $config = new Config(include_once $modConfigFile);
+                $this -> applicationCore -> getCacheManager() -> setDataAsArrayOrObject(
+                    $this -> namespaceName . '_config', $config);
+            } else {
+                $config = new Config([],true);
+            }
+        }
+        if (isset($config -> listeners)) {
+            foreach ($config -> listeners as $listener) {
+                if ($listener -> enabled) {
+                    $service = $app -> getServiceManager() -> get($listener -> service);
+                    $service -> attach($app -> getEventManager(), $listener -> priority);
                 }
             }
         }
+        $this->configMaster = $config;
     }
 
     public function loadModule(ModuleEvent $e)
