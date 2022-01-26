@@ -13,8 +13,6 @@ use Symfony\Component\Dotenv\Dotenv;
 
 class EnvironmentManager extends ApplicationManager
 {
-    protected float $versionNumber;
-    protected string $versionName;
     protected Dotenv $dotenv;
     protected Config $config;
     public const DEVELOPMENT='development';
@@ -41,17 +39,9 @@ class EnvironmentManager extends ApplicationManager
     /**
      * @return float
      */
-    public function getVersionNumber(): float
+    public function getVersionNumber(): string
     {
-        return $this -> versionNumber;
-    }
-
-    /**
-     * @param float $versionNumber
-     */
-    public function setVersionNumber(float $versionNumber): void
-    {
-        $this -> versionNumber = $versionNumber;
+        return $this->config->versionNumber;
     }
 
     /**
@@ -59,15 +49,7 @@ class EnvironmentManager extends ApplicationManager
      */
     public function getVersionName(): string
     {
-        return $this -> versionName;
-    }
-
-    /**
-     * @param string $versionName
-     */
-    public function setVersionName(string $versionName): void
-    {
-        $this -> versionName = $versionName;
+        return $this->config->versionName;
     }
 
     #[Pure] public function getOptionalEnv(string $key): string|null

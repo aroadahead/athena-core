@@ -73,12 +73,12 @@ abstract class ApplicationCore
 
     public function setContainer(ContainerInterface $container)
     {
-        $this->laminasManager->setContainer($container);
+        $this -> laminasManager -> setContainer($container);
     }
 
-    public function container():ContainerInterface
+    public function container(): ContainerInterface
     {
-        return $this->laminasManager->getContainer();
+        return $this -> laminasManager -> getContainer();
     }
 
     public function setup(): self
@@ -96,7 +96,8 @@ abstract class ApplicationCore
     public function boot(): self
     {
         $this -> bootManagers();
-        $this->logManager->info("Athena Core Loaded.");
+        $version = $this -> environmentManager -> getVersionName() . '-' . $this -> environmentManager -> getVersionNumber();
+        $this -> logManager -> info("Starting Athena Application version $version ");
         return $this;
     }
 
