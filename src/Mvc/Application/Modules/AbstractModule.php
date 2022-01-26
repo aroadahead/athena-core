@@ -26,6 +26,12 @@ abstract class AbstractModule
         $this -> namespaceName = (new \ReflectionClass($this)) -> getNamespaceName();
     }
 
+
+    public function getConfig(): array
+    {
+        return include realpath($this -> dir . '/../') . '/config/laminas.module.config.php';
+    }
+
     public function getModuleManager(): ModuleManagerInterface
     {
         return $this -> moduleManager;

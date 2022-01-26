@@ -4,11 +4,9 @@ namespace AthenaCore\Mvc\Service\Listener\Factory;
 
 use AthenaCore\Mvc\Service\Listener\CoreListener;
 use Interop\Container\ContainerInterface;
-use Interop\Container\Exception\ContainerException;
-use Laminas\ServiceManager\Exception\ServiceNotCreatedException;
-use Laminas\ServiceManager\Exception\ServiceNotFoundException;
+use Laminas\ServiceManager\Factory\FactoryInterface;
 
-class CoreListenerFactory implements \Laminas\ServiceManager\Factory\FactoryInterface
+class CoreListenerFactory implements FactoryInterface
 {
 
     /**
