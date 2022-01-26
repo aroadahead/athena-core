@@ -3,12 +3,14 @@
 namespace AthenaCore\Mvc\Application\Modules;
 
 use AthenaCore\Mvc\Application\Application\Core\ApplicationCore;
+use Laminas\Config\Config;
 use Laminas\EventManager\EventInterface;
 use Laminas\ModuleManager\ModuleEvent;
 use Laminas\ModuleManager\ModuleManagerInterface;
 use Laminas\Mvc\ModuleRouteListener;
 use Poseidon\Poseidon;
-use function var_dump;
+use function file_exists;
+use function realpath;
 
 abstract class AbstractModule
 {
@@ -49,7 +51,18 @@ abstract class AbstractModule
         $app = $e -> getApplication();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener -> attach($app -> getEventManager());
-        var_dump($this->dir);
+        $modConfigFile = realpath($this -> dir . '/../') . '/config/athena.config.php';
+        if(file_exists($modConfigFile)){
+            $config = new Config(include_once $modConfigFile);
+            if (isset($config -> listeners)) {
+                foreach ($config -> listeners as $listener) {
+                    if ($listener -> enabled) {
+                        $service = $app -> getServiceManager() -> get($listener -> service);
+                        $service -> attach($app -> getEventManager());
+                    }
+                }
+            }
+        }
     }
 
     public function loadModule(ModuleEvent $e)
