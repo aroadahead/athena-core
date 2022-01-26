@@ -31,7 +31,7 @@ class ConfigManager extends ApplicationManager
     {
         $this -> fileLoader = new FileLoader();
         $this -> directoryLoader = new DirectoryLoader();
-        $this -> masterConfig = new Config([], true);
+        $this -> masterConfig = new Config([]);
         $this -> nodeLookup = new NodeLookup($this -> masterConfig);
     }
 
@@ -94,7 +94,6 @@ class ConfigManager extends ApplicationManager
         if ($cache -> hasData('config')) {
             $config = Json::decode($cache->getData('config'),Json::TYPE_ARRAY);
             $config = new Config($config);
-            var_dump($config->toArray());die();
             $this -> merge($config);
         } else {
             $this -> load($configDir, ['laminas']);
