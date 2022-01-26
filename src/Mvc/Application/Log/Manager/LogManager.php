@@ -122,8 +122,7 @@ class LogManager extends ApplicationManager
     private function logFile(string $file, bool $rotateByDay = false): string
     {
         $logFile = $this -> applicationCore -> getFilesystemManager()
-                -> getDirectoryPaths() -> facade() -> log()
-            . DIRECTORY_SEPARATOR . $file;
+                -> getDirectoryPaths() -> facade() -> log($file);
         if ($rotateByDay) {
             $tz = $this -> applicationCore -> getConfigManager() -> lookup('i18n.timezone');
             $today = new DateTime('NOW', new DateTimeZone($tz));
