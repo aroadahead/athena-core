@@ -28,9 +28,17 @@ class CacheManager extends ApplicationManager
 
     }
 
+    public function removeIfExists(string $key):void
+    {
+        if($this->hasData($key)){
+            $this->removeData($key);
+        }
+    }
+
     public function removeData(string $key):void
     {
         $this->client->del($key);
+        $this->applicationCore->getLogManager()->debug("Deleted redis key $key");
     }
 
     public function setData(string $key, mixed $value, int $ttl = null): void

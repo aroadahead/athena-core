@@ -8,9 +8,9 @@ return [
     'commands' => [
         [
             'service' => 'redisDeleteCommand',
-            'enabled' => false,
+            'enabled' => true,
             'args' => [
-                'key' => 'AthenaCore_AthenaModuleConfig'
+                'key' => 'foo'
             ]
         ]
     ]
