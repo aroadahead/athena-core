@@ -5,6 +5,7 @@ namespace AthenaCore\Mvc\Application\Modules;
 use AthenaCore\Mvc\Application\Application\Core\ApplicationCore;
 use Laminas\Config\Config;
 use Laminas\EventManager\EventInterface;
+use Laminas\Json\Json;
 use Laminas\ModuleManager\ModuleEvent;
 use Laminas\ModuleManager\ModuleManagerInterface;
 use Laminas\Mvc\ModuleRouteListener;
@@ -89,7 +90,8 @@ abstract class AbstractModule
             foreach ($config -> commands as $command) {
                 if ($command -> enabled) {
                     $this -> applicationCore -> getLogManager() -> debug(
-                        "{$this->namespaceName}: Executing Command {$command -> service}.");
+                        "{$this->namespaceName}: Executing Command {$command -> service} with 
+                        config: ".Json::encode($command->args).'.');
                     $service = $sm -> get($command -> service);
                     $service -> setArgs($command -> args);
                     $service -> execute();
