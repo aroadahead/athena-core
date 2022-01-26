@@ -17,9 +17,9 @@ abstract class AbstractCommand
         $this->applicationCore = $this->container->get('core');
     }
 
-    public function setArgs(array $args=[]):void
+    public function setArgs(Config $config):void
     {
-        $this->config = new Config($args);
+        $this->config = $config;
     }
 
     public abstract function execute();
