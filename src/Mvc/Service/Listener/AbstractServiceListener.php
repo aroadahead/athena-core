@@ -13,9 +13,7 @@ abstract class AbstractServiceListener extends \Laminas\EventManager\AbstractLis
 
     public function __construct(protected ContainerInterface $container)
     {
-        $clazz = get_class($this);
-        $parts = explode('/',$clazz);
-        $this->clazzName = $parts[count($parts)-1];
+        $this->clazzName = get_class($this);
         $this -> container -> get('log') -> info("Listener {$this->clazzName} initialized.");
     }
 
