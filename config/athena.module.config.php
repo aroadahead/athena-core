@@ -11,7 +11,8 @@ return [
             'enabled' => true,
             'args' => [
                 'key' => 'foo'
-            ]
+            ],
+            'priority' => 100
         ]
     ]
 ];

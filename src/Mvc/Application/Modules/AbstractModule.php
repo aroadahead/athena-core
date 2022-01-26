@@ -93,13 +93,13 @@ abstract class AbstractModule
             foreach ($config -> commands as $command) {
                 if ($command -> enabled) {
                     $queue -> insert($command, $command -> priority);
-                    $log -> debug("{$this->namespaceName}: Command {$command -> service} 
-                        added to queue with priority {$command->priority}.");
+                    $log -> debug("{$this->namespaceName}: Command {$command -> service} added to queue with " .
+                        "priority {$command->priority}.");
                 } else {
                     $log -> debug("{$this->namespaceName}: Command {$command -> service} not added to queue.");
                 }
             }
-            if(!$queue->isEmpty()){
+            if (!$queue -> isEmpty()) {
                 $queue -> top();
                 while ($queue -> valid()) {
                     $command = $queue -> current();
@@ -111,15 +111,15 @@ abstract class AbstractModule
                     $service -> execute();
                     $log -> debug(
                         "{$this->namespaceName}: Command {$command -> service} executed.");
-                    $queue->next();
+                    $queue -> next();
                 }
             }
         }
         if (isset($config -> listeners)) {
             foreach ($config -> listeners as $listener) {
                 if ($listener -> enabled) {
-                    $log -> debug("{$this->namespaceName}: Attaching service {$listener->service} with 
-                    priority {$listener->priority}.");
+                    $log -> debug("{$this->namespaceName}: Attaching service {$listener->service} with " .
+                        "priority {$listener->priority}.");
                     $service = $sm -> get($listener -> service);
                     $service -> attach($em, $listener -> priority);
                     $log -> debug("{$this->namespaceName}: {$listener->service} service attached.");
