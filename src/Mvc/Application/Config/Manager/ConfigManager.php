@@ -11,6 +11,7 @@ use AthenaCore\Mvc\Application\Config\Loader\FileLoader;
 use AthenaCore\Mvc\Application\Config\Lookup\NodeLookup;
 use Exception;
 use Laminas\Config\Config;
+use Laminas\Json\Json;
 use phpseclib3\Exception\FileNotFoundException;
 use function array_walk;
 use function is_dir;
@@ -89,10 +90,12 @@ class ConfigManager extends ApplicationManager
             }
         }
         if ($cache -> hasData('config')) {
-            $this -> merge(new Config($cache -> getDataAsArrayOrObject('config')));
+            $config = new Config(Json::decode($cache->getData('config')),false);
+            $this -> merge($config);
         } else {
             $this -> load($configDir, ['laminas']);
-            $cache -> setDataAsArrayOrObject('config', $this -> masterConfig->toArray());
+            $json = Json::encode($this->masterConfig->toArray());
+            $cache -> setData('config',$json);
         }
     }
 
