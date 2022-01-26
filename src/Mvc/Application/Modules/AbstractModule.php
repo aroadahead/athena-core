@@ -15,7 +15,6 @@ abstract class AbstractModule
     protected string $namespaceName;
     protected ModuleManagerInterface $moduleManager;
     protected ApplicationCore $applicationCore;
-    protected array $listenerConfig;
 
     public function __construct()
     {
@@ -49,16 +48,7 @@ abstract class AbstractModule
         $app = $e -> getApplication();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener -> attach($app -> getEventManager());
-        $config = $this->listenerConfig;
-        var_dump($config);
-        if (isset($config['listeners'])) {
-            foreach ($config['listeners'] as $listener) {
-                if ($listener['enabled']) {
-                    $service = $app -> getServiceManager() -> get($listener['service']);
-                    $service -> attach($app -> getEventManager());
-                }
-            }
-        }
+
     }
 
     public function loadModule(ModuleEvent $e)
@@ -76,12 +66,13 @@ abstract class AbstractModule
     public function modulesLoaded(ModuleEvent $e)
     {
         $moduleManager = $e -> getTarget();
-        $loadedModules = $moduleManager -> getLoadedModules();
+        $app = $e -> getApplication();
+        $config = $e -> getConfigListener() -> getMergedConfig(false);
+        var_dump($config);
     }
 
     public function onMergeConfig(ModuleEvent $e)
     {
-        $app = $e -> getApplication();
-        $this->listenerConfig = $e -> getConfigListener() -> getMergedConfig(false);
+
     }
 }
