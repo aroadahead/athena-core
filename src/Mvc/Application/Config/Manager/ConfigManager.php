@@ -93,7 +93,7 @@ class ConfigManager extends ApplicationManager
             $jsonDecoded = Json::decode($cache->getData('config'),Json::TYPE_ARRAY);
             $this->merge(new Config($jsonDecoded));
         } else {
-            $this -> load($configDir, ['laminas']);
+            $this -> load($configDir);
             $jsonEncoded = Json::encode($this->masterConfig->toArray());
             $cache->setData('config',$jsonEncoded);
         }
