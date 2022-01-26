@@ -4,14 +4,19 @@ namespace AthenaCore\Mvc\Service\Listener;
 
 use Laminas\EventManager\EventManagerInterface;
 use Psr\Container\ContainerInterface;
+use function explode;
 use function get_class;
 
 abstract class AbstractServiceListener extends \Laminas\EventManager\AbstractListenerAggregate
 {
+    protected string $clazzName;
 
     public function __construct(protected ContainerInterface $container)
     {
-        $this -> container -> get('log') -> info("Listener " . get_class($this) . " initialized.");
+        $clazz = get_class($this);
+        $parts = explode('/',$clazz);
+        $this->clazzName = $parts[count($parts)-1];
+        $this -> container -> get('log') -> info("Listener " . get_class($this->clazzName) . " initialized.");
     }
 
 
@@ -30,6 +35,6 @@ abstract class AbstractServiceListener extends \Laminas\EventManager\AbstractLis
 
     public function markTriggered(): void
     {
-        $this -> container -> get('log') -> info("Listener " . get_class($this) . " triggered");
+        $this -> container -> get('log') -> info("Listener " . get_class($this->clazzName) . " triggered");
     }
 }
