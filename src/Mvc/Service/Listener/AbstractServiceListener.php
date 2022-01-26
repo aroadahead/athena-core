@@ -16,7 +16,7 @@ abstract class AbstractServiceListener extends \Laminas\EventManager\AbstractLis
         $clazz = get_class($this);
         $parts = explode('/',$clazz);
         $this->clazzName = $parts[count($parts)-1];
-        $this -> container -> get('log') -> info("Listener " . get_class($this->clazzName) . " initialized.");
+        $this -> container -> get('log') -> info("Listener {$this->clazzName} initialized.");
     }
 
 
@@ -35,6 +35,6 @@ abstract class AbstractServiceListener extends \Laminas\EventManager\AbstractLis
 
     public function markTriggered(): void
     {
-        $this -> container -> get('log') -> info("Listener " . get_class($this->clazzName) . " triggered");
+        $this -> container -> get('log') -> info("Listener {$this->clazzName} triggered");
     }
 }
