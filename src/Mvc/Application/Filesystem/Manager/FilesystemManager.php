@@ -6,6 +6,7 @@ namespace AthenaCore\Mvc\Application\Filesystem\Manager;
 
 use AthenaCore\Mvc\Application\Application\Manager\ApplicationManager;
 use AthenaCore\Mvc\Application\Filesystem\Manager\Directory\DirectoryPaths;
+use function realpath;
 use function var_dump;
 
 class FilesystemManager extends ApplicationManager
@@ -17,6 +18,11 @@ class FilesystemManager extends ApplicationManager
     public function __construct()
     {
         $this -> directoryPaths = new DirectoryPaths();
+    }
+    
+    public function realPath(string $dir):string
+    {
+        return realpath($dir);
     }
 
     /**

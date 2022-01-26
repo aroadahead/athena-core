@@ -10,7 +10,6 @@ use Laminas\ModuleManager\ModuleManagerInterface;
 use Laminas\Mvc\ModuleRouteListener;
 use Poseidon\Poseidon;
 use function file_exists;
-use function realpath;
 
 abstract class AbstractModule
 {
@@ -29,7 +28,8 @@ abstract class AbstractModule
 
     public function getConfig(): array
     {
-        return include realpath($this -> dir . '/../') . '/config/laminas.module.config.php';
+        return include $this -> applicationCore -> getFilesystemManager()
+                -> realPath($this -> dir . '/../') . '/config/laminas.module.config.php';
     }
 
     public function getModuleManager(): ModuleManagerInterface
@@ -72,7 +72,8 @@ abstract class AbstractModule
         if ($cache -> hasData($modConfigKey)) {
             $config = $cache -> getDataAsArrayOrObject($modConfigKey);
         } else {
-            $modConfigFile = realpath($this -> dir . '/../') . '/config/athena.module.config.php';
+            $modConfigFile = $this -> applicationCore -> getFilesystemManager()
+                    -> realPath($this -> dir . '/../') . '/config/athena.module.config.php';
             if (file_exists($modConfigFile)) {
                 $config = new Config(include_once $modConfigFile);
                 $cache -> setDataAsArrayOrObject($modConfigKey, $config);
