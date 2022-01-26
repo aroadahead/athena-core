@@ -48,7 +48,7 @@ abstract class AbstractModule
         $app = $e -> getApplication();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener -> attach($app -> getEventManager());
-
+        var_dump(__DIR__);
     }
 
     public function loadModule(ModuleEvent $e)
@@ -66,9 +66,7 @@ abstract class AbstractModule
     public function modulesLoaded(ModuleEvent $e)
     {
         $moduleManager = $e -> getTarget();
-        $app = $e -> getApplication();
-        $config = $e -> getConfigListener() -> getMergedConfig(false);
-        var_dump($config);
+        $loadedModules = $moduleManager -> getLoadedModules();
     }
 
     public function onMergeConfig(ModuleEvent $e)
