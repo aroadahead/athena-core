@@ -5,6 +5,8 @@ namespace AthenaCore\Mvc\Application\Filesystem\Manager\Directory;
 use AthenaCore\Mvc\Application\Filesystem\Manager\Directory\Exception\PathNotExists;
 use AthenaCore\Mvc\Application\Filesystem\Manager\Directory\Facade\Facade;
 use function array_walk;
+use function chgrp;
+use function chown;
 use function is_dir;
 use function mkdir;
 use function str_ireplace;
@@ -24,6 +26,8 @@ class DirectoryPaths extends \Poseidon\Data\DataObject
             if (!is_dir($item['path'])) {
                 if ($item['create']) {
                     mkdir($item['path'], $item['mode']);
+                    chown($item['path'], $item['owner']);
+                    chgrp($item['path'], $item['group']);
                 } else {
                     throw new \Exception("path {$item['path']} does not exist!");
                 }
