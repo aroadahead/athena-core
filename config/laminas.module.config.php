@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use AthenaCore\Command\Redis\Factory\RedisDeleteCommandFactory;
 use AthenaCore\Mvc\Service\Listener\Factory\CoreListenerFactory;
 use AthenaCore\View\Helper\Js\Factory\JsLocalStorageFactory;
 use AthenaCore\View\Helper\Js\JsLocalStorage;
@@ -13,7 +14,8 @@ return [
     'controllers' => [],
     'service_manager' => [
         'factories' => [
-            'coreListener' => CoreListenerFactory::class
+            'coreListener' => CoreListenerFactory::class,
+            'redisDeleteCommand' => RedisDeleteCommandFactory::class
         ]
     ],
     'router' => [],

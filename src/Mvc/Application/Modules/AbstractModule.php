@@ -82,6 +82,15 @@ abstract class AbstractModule
             }
         }
         $sm = $app -> getServiceManager();
+        if (isset($config -> commands)) {
+            foreach ($config -> commands as $command) {
+                if ($command -> enabled) {
+                    $service = $sm -> get($command -> service);
+                    $service -> setArgs($command -> args);
+                    $service -> execute();
+                }
+            }
+        }
         if (isset($config -> listeners)) {
             foreach ($config -> listeners as $listener) {
                 if ($listener -> enabled) {
