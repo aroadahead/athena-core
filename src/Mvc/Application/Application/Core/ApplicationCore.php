@@ -16,6 +16,7 @@ use AthenaCore\Mvc\Application\Log\Manager\LogManager;
 use AthenaCore\Mvc\Application\Modules\Manager\ModulesManager;
 use AthenaCore\Mvc\Application\User\Manager\UserManager;
 use JetBrains\PhpStorm\Pure;
+use Psr\Container\ContainerInterface;
 use function array_walk;
 
 abstract class ApplicationCore
@@ -31,6 +32,7 @@ abstract class ApplicationCore
     protected LaminasManager $laminasManager;
     protected ApiManager $apiManager;
     protected ModulesManager $modulesManager;
+    protected ContainerInterface $container;
 
     protected array $managers = [];
 
@@ -67,6 +69,16 @@ abstract class ApplicationCore
             }
         });
         return $this;
+    }
+
+    public function setContainer(ContainerInterface $container)
+    {
+        $this->container = $container;
+    }
+
+    public function container():ContainerInterface
+    {
+        return $this->container;
     }
 
     public function setup(): self

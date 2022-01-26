@@ -2,7 +2,9 @@
 
 namespace AthenaCore;
 
-class Module
+use AthenaCore\Mvc\Application\Modules\AbstractModule;
+
+class Module extends AbstractModule
 {
     public function getConfig():array
     {

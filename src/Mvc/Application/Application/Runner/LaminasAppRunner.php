@@ -18,6 +18,8 @@ class LaminasAppRunner extends ApplicationCore
 
         $appConfig = $this -> configManager -> lookup('laminas.application', true);
         $appConfig['modules'] = $this -> configManager -> lookup('laminas.modules', true);
-        Application ::init($appConfig) -> run();
+        $app = Application ::init($appConfig);
+        $this->setContainer($app->getServiceManager());
+        $app->run();
     }
 }
