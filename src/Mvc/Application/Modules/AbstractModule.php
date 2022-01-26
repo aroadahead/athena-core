@@ -59,13 +59,22 @@ abstract class AbstractModule
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener -> attach($app -> getEventManager());
         $modConfigKey = $this -> namespaceName . '_AthenaModuleConfig';
-        if ($this -> applicationCore -> getCacheManager() -> hasData($modConfigKey)) {
-            $config = $this -> applicationCore -> getCacheManager() -> getDataAsArrayOrObject($modConfigKey);
+        $flushKey = $modConfigKey . '_flush';
+        $cache = $this -> applicationCore -> getCacheManager();
+        if ($cache -> hasData($flushKey)) {
+            $cache -> removeData($modConfigKey);
+            if ($cache -> hasData($modConfigKey)) {
+                throw new \Exception("cannot remove cache config $modConfigKey");
+            }
+            $cache -> removeData($flushKey);
+        }
+        if ($cache -> hasData($modConfigKey)) {
+            $config = $cache -> getDataAsArrayOrObject($modConfigKey);
         } else {
             $modConfigFile = realpath($this -> dir . '/../') . '/config/athena.module.config.php';
             if (file_exists($modConfigFile)) {
                 $config = new Config(include_once $modConfigFile);
-                $this -> applicationCore -> getCacheManager() -> setDataAsArrayOrObject($modConfigKey, $config);
+                $cache -> setDataAsArrayOrObject($modConfigKey, $config);
             } else {
                 $config = new Config([], true);
             }
