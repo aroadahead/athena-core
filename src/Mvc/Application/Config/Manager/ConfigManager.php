@@ -89,10 +89,10 @@ class ConfigManager extends ApplicationManager
             }
         }
         if ($cache -> hasData('config')) {
-            $this -> merge($cache -> getDataAsArrayOrObject('config'));
+            $this -> merge(new Config($cache -> getDataAsArrayOrObject('config')));
         } else {
             $this -> load($configDir, ['laminas']);
-            $cache -> setDataAsArrayOrObject('config', $this -> masterConfig);
+            $cache -> setDataAsArrayOrObject('config', $this -> masterConfig->toArray());
         }
     }
 
