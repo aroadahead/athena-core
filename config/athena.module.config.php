@@ -8,6 +8,7 @@ return [
     'commands' => [
         [
             'service' => 'redisDeleteCommand',
+            'name' => 'DeleteFooKey',
             'enabled' => true,
             'args' => [
                 'key' => 'foo'
@@ -16,6 +17,7 @@ return [
         ],
         [
             'service' => 'redisDeleteCommand',
+            'name' => 'DeleteBarKey',
             'enabled' => true,
             'args' => [
                 'key' => 'bar'

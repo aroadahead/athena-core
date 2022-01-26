@@ -93,7 +93,7 @@ abstract class AbstractModule
             foreach ($config -> commands as $command) {
                 if ($command -> enabled) {
                     $queue -> insert($command, $command -> priority);
-                    $log -> debug("{$this->namespaceName}: Command {$command -> service} added to queue with " .
+                    $log -> debug("{$this->namespaceName}: Command {$command -> name} added to queue with " .
                         "priority {$command->priority}.");
                 } else {
                     $log -> debug("{$this->namespaceName}: Command {$command -> service} not added to queue.");
@@ -104,13 +104,13 @@ abstract class AbstractModule
                 while ($queue -> valid()) {
                     $command = $queue -> current();
                     $log -> debug(
-                        "{$this->namespaceName}: Executing Command {$command -> service} with args: "
+                        "{$this->namespaceName}: Executing Command {$command -> name} with args: "
                         . Json ::encode($command -> args) . '.');
                     $service = $sm -> get($command -> service);
                     $service -> setArgs($command -> args);
                     $service -> execute();
                     $log -> debug(
-                        "{$this->namespaceName}: Command {$command -> service} executed.");
+                        "{$this->namespaceName}: Command {$command -> name} executed.");
                     $queue -> next();
                 }
             }
