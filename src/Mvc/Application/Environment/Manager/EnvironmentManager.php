@@ -31,6 +31,11 @@ class EnvironmentManager extends ApplicationManager
         $this->config = new Config([],false);
     }
 
+    public function getDefaultLocale():string
+    {
+        return $this->config->defaultLocale;
+    }
+
     public function getRedisConfig():Config
     {
         return $this->config->redis;
