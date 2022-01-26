@@ -89,7 +89,7 @@ abstract class AbstractModule
             foreach ($config -> commands as $command) {
                 if ($command -> enabled) {
                     $this -> applicationCore -> getLogManager() -> debug(
-                        "{$this->namespaceName}: Executing Command: {$command -> service}");
+                        "{$this->namespaceName}: Executing Command {$command -> service}");
                     $service = $sm -> get($command -> service);
                     $service -> setArgs($command -> args);
                     $service -> execute();
@@ -105,14 +105,14 @@ abstract class AbstractModule
             foreach ($config -> listeners as $listener) {
                 if ($listener -> enabled) {
                     $this -> applicationCore -> getLogManager() -> debug(
-                        "{$this->namespaceName}: Attaching service: {$listener->service}");
+                        "{$this->namespaceName}: Attaching service {$listener->service}");
                     $service = $sm -> get($listener -> service);
                     $service -> attach($em, $listener -> priority);
                     $this -> applicationCore -> getLogManager() -> debug(
-                        "{$this->namespaceName}: Service: {$listener->service} attached.");
+                        "{$this->namespaceName}: {$listener->service} service attached.");
                 } else {
                     $this -> applicationCore -> getLogManager() -> debug(
-                        "{$this->namespaceName}: Service: {$listener->service} not enabled.");
+                        "{$this->namespaceName}: {$listener->service} service not enabled.");
                 }
             }
         }
