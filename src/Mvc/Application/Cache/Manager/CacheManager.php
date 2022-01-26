@@ -6,18 +6,22 @@ declare(strict_types=1);
 namespace AthenaCore\Mvc\Application\Cache\Manager;
 
 use AthenaCore\Mvc\Application\Application\Manager\ApplicationManager;
+use Predis\Client;
 
 class CacheManager extends ApplicationManager
 {
+    protected Client $client;
 
     public function setup(): void
     {
-        // TODO: Implement setup() method.
+
     }
 
     public function init(): void
     {
-        // TODO: Implement init() method.
+        $config = $this->applicationCore->getConfigManager()->lookup('redis',true);
+        $this->client = new Client($config);
+        $this->client->connect();
     }
 
     public function boot(): void

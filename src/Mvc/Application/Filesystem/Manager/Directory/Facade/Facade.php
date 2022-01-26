@@ -11,6 +11,11 @@ class Facade
 
     }
 
+    public function root():string
+    {
+        return $this->getPath('root');
+    }
+
     public function log(): string
     {
         return $this -> getPath('log');

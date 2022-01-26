@@ -46,7 +46,8 @@ class FilesystemManager extends ApplicationManager
             'cache' => $rootPath .'/data/cache',
             'docs' => $rootPath.'/docs',
             'public' => $rootPath.'/public',
-            'reactSrc' => $rootPath.'/public/src'
+            'reactSrc' => $rootPath.'/public/src',
+            'root' => $rootPath
         ];
         $overridePaths = [];
         $this -> directoryPaths -> loadPaths($paths, $overridePaths);

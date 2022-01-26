@@ -8,17 +8,20 @@ use AthenaCore\Mvc\Application\Application\Manager\ApplicationManager;
 use AthenaCore\Mvc\Application\Environment\Manager\Exception\RequiredEnvNotFound;
 use AthenaCore\Service\Front\JsLocalStorageTrait;
 use Poseidon\Data\DataObject;
+use Symfony\Component\Dotenv\Dotenv;
 
 class EnvironmentManager extends ApplicationManager
 {
     protected float $versionNumber;
     protected string $versionName;
+    protected Dotenv $dotenv;
 
     use JsLocalStorageTrait;
 
     public function __construct()
     {
         $this -> jsLocalStorage = new DataObject();
+        $this->dotenv = new Dotenv();
     }
 
     /**
@@ -79,7 +82,10 @@ class EnvironmentManager extends ApplicationManager
 
     public function init(): void
     {
-        // TODO: Implement init() method.
+        $envFile = $this->applicationCore->getFilesystemManager()
+            ->getDirectoryPaths()->facade()->root()
+            .DIRECTORY_SEPARATOR.'athena.env';
+        $this->dotenv->load($envFile);
     }
 
     public function boot(): void
