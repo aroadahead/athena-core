@@ -13,6 +13,14 @@ return [
                 'key' => 'foo'
             ],
             'priority' => 100
+        ],
+        [
+            'service' => 'redisDeleteCommand',
+            'enabled' => true,
+            'args' => [
+                'key' => 'bar'
+            ],
+            'priority' => 10
         ]
     ]
 ];
