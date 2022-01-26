@@ -90,8 +90,8 @@ abstract class AbstractModule
             foreach ($config -> commands as $command) {
                 if ($command -> enabled) {
                     $this -> applicationCore -> getLogManager() -> debug(
-                        "{$this->namespaceName}: Executing Command {$command -> service} with 
-                        config: ".Json::encode($command->args).'.');
+                        "{$this->namespaceName}: Executing Command {$command -> service} with args: "
+                        .Json::encode($command->args).'.');
                     $service = $sm -> get($command -> service);
                     $service -> setArgs($command -> args);
                     $service -> execute();
