@@ -26,7 +26,7 @@ class DirectoryPaths extends \Poseidon\Data\DataObject
         array_walk($paths, function ($item, $key) {
             if (!is_dir($item['path'])) {
                 if ($item['create']) {
-                    mkdir($item['path'], $item['mode']);
+                    mkdir($item['path'], $item['mode'],true);
                     //shell_exec("sudo chown {$item['owner']}:${item['group']} {$item['path']}");
                 } else {
                     throw new \Exception("path {$item['path']} does not exist!");
