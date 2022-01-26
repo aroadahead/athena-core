@@ -52,17 +52,16 @@ abstract class AbstractModule
         $app = $e -> getApplication();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener -> attach($app -> getEventManager());
-        if ($this -> applicationCore -> getCacheManager() -> hasData($this -> namespaceName . '_AthenaModuleConfig')) {
-            $config = $this -> applicationCore -> getCacheManager() -> getDataAsArrayOrObject(
-                $this -> namespaceName . '_AthenaModuleConfig');
+        $modConfigKey = $this -> namespaceName . '_AthenaModuleConfig';
+        if ($this -> applicationCore -> getCacheManager() -> hasData($modConfigKey)) {
+            $config = $this -> applicationCore -> getCacheManager() -> getDataAsArrayOrObject($modConfigKey);
         } else {
             $modConfigFile = realpath($this -> dir . '/../') . '/config/athena.module.config.php';
             if (file_exists($modConfigFile)) {
                 $config = new Config(include_once $modConfigFile);
-                $this -> applicationCore -> getCacheManager() -> setDataAsArrayOrObject(
-                    $this -> namespaceName . '_AthenaModuleConfig', $config);
+                $this -> applicationCore -> getCacheManager() -> setDataAsArrayOrObject($modConfigKey, $config);
             } else {
-                $config = new Config([],true);
+                $config = new Config([], true);
             }
         }
         if (isset($config -> listeners)) {
@@ -73,7 +72,7 @@ abstract class AbstractModule
                 }
             }
         }
-        $this->configMaster = $config;
+        $this -> configMaster = $config;
     }
 
     public function loadModule(ModuleEvent $e)
