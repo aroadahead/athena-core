@@ -3,6 +3,7 @@
 namespace AthenaCore\Mvc\Application\Filesystem\Manager\Directory\Facade;
 
 use AthenaCore\Mvc\Application\Filesystem\Manager\Directory\DirectoryPaths;
+use function str_ireplace;
 
 class Facade
 {
@@ -11,48 +12,52 @@ class Facade
 
     }
 
-    public function root():string
+    public function root(?string $extra = null): string
     {
-        return $this->getPath('root');
+        return $this -> getPath('root', $extra);
     }
 
-    public function log(): string
+    public function log(?string $extra = null): string
     {
-        return $this -> getPath('log');
+        return $this -> getPath('log', $extra);
     }
 
-    public function docs(): string
+    public function docs(?string $extra = null): string
     {
-        return $this -> getPath('docs');
+        return $this -> getPath('docs', $extra);
     }
 
-    public function htmlpublic(): string
+    public function htmlpublic(?string $extra = null): string
     {
-        return $this -> getPath('public');
+        return $this -> getPath('public', $extra);
     }
 
-    public function reactSrc(): string
+    public function reactSrc(?string $extra = null): string
     {
-        return $this -> getPath('reactSrc');
+        return $this -> getPath('reactSrc', $extra);
     }
 
-    public function data(): string
+    public function data(?string $extra = null): string
     {
-        return $this -> getPath('data');
+        return $this -> getPath('data', $extra);
     }
 
-    public function cache(): string
+    public function cache(?string $extra = null): string
     {
-        return $this -> getPath('cache');
+        return $this -> getPath('cache', $extra);
     }
 
-    public function config(): string
+    public function config(?string $extra = null): string
     {
-        return $this -> getPath('config');
+        return $this -> getPath('config', $extra);
     }
 
-    public function getPath(string $name): string
+    public function getPath(string $name, ?string $extra = null): string
     {
-        return $this -> directoryPaths -> getPath($name);
+        $dir = $this -> directoryPaths -> getPath($name);
+        if ($extra !== null) {
+            $dir .= DIRECTORY_SEPARATOR . str_ireplace(['/', '\\'], DIRECTORY_SEPARATOR, $extra);
+        }
+        return $dir;
     }
 }
