@@ -32,8 +32,8 @@ class CoreListener extends AbstractServiceListener
         $controller = $moduleParts[1];
         $action = $routeMatch -> getParam('action');
         $log = $this -> container -> get('log');
-        $log -> info("Dispatching route matchedName: {$routeMatchedName}");
         $log -> info("Dispatching Controller Class: " . $routeMatch -> getParam('controller'));
+        $log -> info("Dispatching route matchedName: {$routeMatchedName}");
         $log -> info("Dispatching route module: {$module}");
         $log -> info("Dispatching route controller: {$controller}");
         $log -> info("Dispatching route action: {$action}");
