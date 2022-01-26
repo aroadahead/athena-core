@@ -20,6 +20,7 @@ class CoreListener extends AbstractServiceListener
 
     public function onRoute(MvcEvent $e): void
     {
+        $this->markTriggered();
         $routeMatch = $e -> getRouteMatch();
         $routeMatchedName = $routeMatch -> getMatchedRouteName();
         $realController = $routeMatch -> getParam('controller');

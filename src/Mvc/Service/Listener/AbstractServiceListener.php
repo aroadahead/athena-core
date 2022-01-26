@@ -27,4 +27,9 @@ abstract class AbstractServiceListener extends \Laminas\EventManager\AbstractLis
     {
         $this -> listeners[] = $events -> attach($event, $call, $priority);
     }
+
+    public function markTriggered(): void
+    {
+        $this -> container -> get('log') -> info("Listener " . get_class($this) . " triggered");
+    }
 }
