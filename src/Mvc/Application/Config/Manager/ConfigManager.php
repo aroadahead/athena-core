@@ -90,7 +90,8 @@ class ConfigManager extends ApplicationManager
             }
         }
         if ($cache -> hasData('config')) {
-            $config = new Config(Json::decode($cache->getData('config')),false);
+            $arr = (array)Json::decode($cache->getData('config'));
+            $config = new Config($arr,false);
             $this -> merge($config);
         } else {
             $this -> load($configDir, ['laminas']);
