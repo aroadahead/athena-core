@@ -15,6 +15,7 @@ abstract class AbstractModule
     protected string $namespaceName;
     protected ModuleManagerInterface $moduleManager;
     protected ApplicationCore $applicationCore;
+    protected string $dir;
 
     public function __construct()
     {
@@ -48,7 +49,7 @@ abstract class AbstractModule
         $app = $e -> getApplication();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener -> attach($app -> getEventManager());
-        var_dump(__DIR__);
+        var_dump($this->dir);
     }
 
     public function loadModule(ModuleEvent $e)
