@@ -3,7 +3,6 @@
 namespace AthenaCore\Mvc\Application\Modules;
 
 use AthenaCore\Mvc\Application\Application\Core\ApplicationCore;
-use Laminas\EventManager\EventInterface;
 use Laminas\ModuleManager\ModuleEvent;
 use Laminas\ModuleManager\ModuleManagerInterface;
 use Laminas\Mvc\ModuleRouteListener;
@@ -17,36 +16,45 @@ abstract class AbstractModule
 
     public function __construct()
     {
-        $this->applicationCore = Poseidon::getCore();
-        $this->namespaceName = (new \ReflectionClass($this))->getNamespaceName();
+        $this -> applicationCore = Poseidon ::getCore();
+        $this -> namespaceName = (new \ReflectionClass($this)) -> getNamespaceName();
     }
 
-    public function getModuleManager():ModuleManagerInterface
+    public function getModuleManager(): ModuleManagerInterface
     {
-        return $this->moduleManager;
+        return $this -> moduleManager;
     }
 
-    public function getNamespaceName():string
+    public function getNamespaceName(): string
     {
-        return $this->namespaceName;
+        return $this -> namespaceName;
     }
 
     public function init(ModuleManagerInterface $manager)
     {
-        $this->moduleManager = $manager;
-        $events = $this->moduleManager->getEventManager();
-        $events->attach(ModuleEvent::EVENT_MERGE_CONFIG,[$this,'onMergeConfig']);
+        $this -> moduleManager = $manager;
+        $events = $this -> moduleManager -> getEventManager();
+        $events -> attach(ModuleEvent::EVENT_MERGE_CONFIG, [$this, 'onMergeConfig']);
         $events -> attach(ModuleEvent::EVENT_LOAD_MODULES, [$this, 'loadModules']);
         $events -> attach(ModuleEvent::EVENT_LOAD_MODULES_POST, [$this, 'modulesLoaded']);
         $events -> attach(ModuleEvent::EVENT_LOAD_MODULE_RESOLVE, [$this, 'loadModuleResolve']);
         $events -> attach(ModuleEvent::EVENT_LOAD_MODULE, [$this, 'loadModule']);
     }
 
-    public function onBootstrap(EventInterface $e): void
+    public function onBootstrap(ModuleEvent $e): void
     {
-        $app = $e->getApplication();
+        $app = $e -> getApplication();
         $moduleRouteListener = new ModuleRouteListener();
-        $moduleRouteListener->attach($app->getEventManager());
+        $moduleRouteListener -> attach($app -> getEventManager());
+        $config = $e -> getConfigListener() -> getMergedConfig(false);
+        if (isset($config['listeners'])) {
+            foreach ($config['listeners'] as $listener) {
+                if ($listener['enabled']) {
+                    $service = $app -> getServiceManager() -> get($listener['service']);
+                    $service -> attach($app -> getEventManager());
+                }
+            }
+        }
     }
 
     public function loadModule(ModuleEvent $e)
