@@ -88,25 +88,31 @@ abstract class AbstractModule
         if (isset($config -> commands)) {
             foreach ($config -> commands as $command) {
                 if ($command -> enabled) {
-                    $this -> applicationCore -> getLogManager() -> debug("Executing Command: {$command -> service}");
+                    $this -> applicationCore -> getLogManager() -> debug(
+                        "{$this->namespaceName}: Executing Command: {$command -> service}");
                     $service = $sm -> get($command -> service);
                     $service -> setArgs($command -> args);
                     $service -> execute();
-                    $this -> applicationCore -> getLogManager() -> debug("Command {$command -> service} executed.");
+                    $this -> applicationCore -> getLogManager() -> debug(
+                        "{$this->namespaceName}: Command {$command -> service} executed.");
                 } else {
-                    $this -> applicationCore -> getLogManager() -> debug("Command {$command -> service} not enabled.");
+                    $this -> applicationCore -> getLogManager() -> debug(
+                        "{$this->namespaceName}: Command {$command -> service} not enabled.");
                 }
             }
         }
         if (isset($config -> listeners)) {
             foreach ($config -> listeners as $listener) {
                 if ($listener -> enabled) {
-                    $this -> applicationCore -> getLogManager() -> debug("Attaching service: {$listener->service}");
+                    $this -> applicationCore -> getLogManager() -> debug(
+                        "{$this->namespaceName}: Attaching service: {$listener->service}");
                     $service = $sm -> get($listener -> service);
                     $service -> attach($em, $listener -> priority);
-                    $this -> applicationCore -> getLogManager() -> debug("Service: {$listener->service} attached.");
+                    $this -> applicationCore -> getLogManager() -> debug(
+                        "{$this->namespaceName}: Service: {$listener->service} attached.");
                 } else {
-                    $this -> applicationCore -> getLogManager() -> debug("Service: {$listener->service} not enabled.");
+                    $this -> applicationCore -> getLogManager() -> debug(
+                        "{$this->namespaceName}: Service: {$listener->service} not enabled.");
                 }
             }
         }
