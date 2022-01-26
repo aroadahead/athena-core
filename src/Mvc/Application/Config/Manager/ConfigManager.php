@@ -80,7 +80,21 @@ class ConfigManager extends ApplicationManager
         $this -> facade = new Facade($this);
         $configDir = $this -> applicationCore -> getFilesystemManager()
             -> getDirectoryPaths() -> facade() -> config();
-        $this -> load($configDir, ['laminas']);
+        $cache = $this -> applicationCore -> getCacheManager();
+        if ($cache -> hasData('config.flush')) {
+            $cache -> removeData('config');
+            if (!$cache -> hasData('config')) {
+                $cache -> removeData('config.flush');
+            } else {
+                throw new Exception("Error flushing config cache data.");
+            }
+        }
+        if ($cache -> hasData('config')) {
+            $this->merge($cache->getDataAsArrayOrObject('config'));
+        } else {
+            $this -> load($configDir, ['laminas']);
+            $cache -> setDataAsArrayOrObject('config',$this->masterConfig);
+        }
     }
 
     public function init(): void
