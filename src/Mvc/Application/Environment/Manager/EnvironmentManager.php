@@ -7,6 +7,7 @@ namespace AthenaCore\Mvc\Application\Environment\Manager;
 use AthenaCore\Mvc\Application\Application\Manager\ApplicationManager;
 use AthenaCore\Mvc\Application\Environment\Manager\Exception\RequiredEnvNotFound;
 use AthenaCore\Service\Front\JsLocalStorageTrait;
+use Laminas\Config\Config;
 use Poseidon\Data\DataObject;
 use Symfony\Component\Dotenv\Dotenv;
 
@@ -15,6 +16,7 @@ class EnvironmentManager extends ApplicationManager
     protected float $versionNumber;
     protected string $versionName;
     protected Dotenv $dotenv;
+    protected Config $config;
 
     use JsLocalStorageTrait;
 
@@ -23,6 +25,13 @@ class EnvironmentManager extends ApplicationManager
         $this -> jsLocalStorage = new DataObject();
         $this->dotenv = new Dotenv();
         $this->dotenv->usePutenv(true);
+        $this->config = new Config([],false);
+        $this->loadStartupConfigs();
+    }
+
+    public function getRedisConfig():Config
+    {
+        return $this->config->redis;
     }
 
     /**
@@ -91,5 +100,11 @@ class EnvironmentManager extends ApplicationManager
     public function boot(): void
     {
         // TODO: Implement boot() method.
+    }
+
+    private function loadStartupConfigs()
+    {
+        $file = $this->getApplicationCore()->getRootPath().DIRECTORY_SEPARATOR.'startup.configs.php';
+        $this->config->merge(new Config(include_once $file));
     }
 }

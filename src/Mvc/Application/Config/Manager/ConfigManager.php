@@ -9,12 +9,12 @@ use AthenaCore\Mvc\Application\Config\Facade\Facade;
 use AthenaCore\Mvc\Application\Config\Loader\DirectoryLoader;
 use AthenaCore\Mvc\Application\Config\Loader\FileLoader;
 use AthenaCore\Mvc\Application\Config\Lookup\NodeLookup;
+use Exception;
 use Laminas\Config\Config;
 use phpseclib3\Exception\FileNotFoundException;
 use function array_walk;
 use function is_dir;
 use function is_file;
-use function var_dump;
 
 class ConfigManager extends ApplicationManager
 {
@@ -54,7 +54,7 @@ class ConfigManager extends ApplicationManager
         return $data;
     }
 
-    public function load(string $path,array $excludeRootPaths=[]): void
+    public function load(string $path, array $excludeRootPaths = []): void
     {
         if (!is_file($path) && !is_dir($path)) {
             throw new FileNotFoundException("invalid file config path: $path");
@@ -62,7 +62,7 @@ class ConfigManager extends ApplicationManager
         if (is_file($path)) {
             $this -> merge($this -> fileLoader -> loadFile($path));
         } else {
-            $files = $this -> directoryLoader -> load($path,$excludeRootPaths);
+            $files = $this -> directoryLoader -> load($path, $excludeRootPaths);
             array_walk($files, function ($item) {
                 $this -> merge($this -> fileLoader -> loadFile($item));
             });
@@ -79,7 +79,21 @@ class ConfigManager extends ApplicationManager
         $this -> facade = new Facade($this);
         $configDir = $this -> applicationCore -> getFilesystemManager()
             -> getDirectoryPaths() -> facade() -> config();
-        $this -> load($configDir,['laminas']);
+        $cache = $this -> applicationCore -> getCacheManager();
+        if ($cache -> hasData('config.flush')) {
+            $cache -> removeData('config');
+            if (!$cache -> hasData('config')) {
+                $cache -> removeData('config.flush');
+            } else {
+                throw new Exception("Error flushing config cache data.");
+            }
+        }
+        if ($cache -> hasData('config')) {
+            $this -> merge($cache -> getDataAsArrayOrObject('config'));
+        } else {
+            $this -> load($configDir, ['laminas']);
+            $cache -> setDataAsArrayOrObject('config', $this -> masterConfig);
+        }
     }
 
     public function init(): void
