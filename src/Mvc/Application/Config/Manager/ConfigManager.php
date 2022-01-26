@@ -92,13 +92,10 @@ class ConfigManager extends ApplicationManager
             }
         }
         if ($cache -> hasData('config')) {
-            $config = Json::decode($cache->getData('config'),Json::TYPE_ARRAY);
-            $config = new Config($config);
-            $this -> merge($config);
+            $this -> merge($cache->getDataAsArrayOrObject('config'));
         } else {
             $this -> load($configDir, ['laminas']);
-            $json = Json::encode($this->masterConfig->toArray());
-            $cache -> setData('config',$json);
+            $cache -> setDataAsArrayOrObject('config',$this->masterConfig);
         }
     }
 
