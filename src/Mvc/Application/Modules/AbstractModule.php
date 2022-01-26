@@ -56,8 +56,9 @@ abstract class AbstractModule
     public function onBootstrap(EventInterface $e): void
     {
         $app = $e -> getApplication();
+        $em = $app -> getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
-        $moduleRouteListener -> attach($app -> getEventManager());
+        $moduleRouteListener -> attach($em);
         $modConfigKey = $this -> namespaceName . '_AthenaModuleConfig';
         $flushKey = $modConfigKey . '_flush';
         $cache = $this -> applicationCore -> getCacheManager();
@@ -79,11 +80,12 @@ abstract class AbstractModule
                 $config = new Config([], true);
             }
         }
+        $sm = $app -> getServiceManager();
         if (isset($config -> listeners)) {
             foreach ($config -> listeners as $listener) {
                 if ($listener -> enabled) {
-                    $service = $app -> getServiceManager() -> get($listener -> service);
-                    $service -> attach($app -> getEventManager(), $listener -> priority);
+                    $service = $sm -> get($listener -> service);
+                    $service -> attach($em, $listener -> priority);
                 }
             }
         }
