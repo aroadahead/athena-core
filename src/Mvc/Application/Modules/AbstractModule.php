@@ -52,15 +52,15 @@ abstract class AbstractModule
         $app = $e -> getApplication();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener -> attach($app -> getEventManager());
-        if ($this -> applicationCore -> getCacheManager() -> hasData($this -> namespaceName . '_config')) {
+        if ($this -> applicationCore -> getCacheManager() -> hasData($this -> namespaceName . '_AthenaModuleCnfig')) {
             $config = $this -> applicationCore -> getCacheManager() -> getDataAsArrayOrObject(
-                $this -> namespaceName . '_config');
+                $this -> namespaceName . '_AthenaModuleCnfig');
         } else {
             $modConfigFile = realpath($this -> dir . '/../') . '/config/athena.module.config.php';
             if (file_exists($modConfigFile)) {
                 $config = new Config(include_once $modConfigFile);
                 $this -> applicationCore -> getCacheManager() -> setDataAsArrayOrObject(
-                    $this -> namespaceName . '_config', $config);
+                    $this -> namespaceName . '_AthenaModuleCnfig', $config);
             } else {
                 $config = new Config([],true);
             }
