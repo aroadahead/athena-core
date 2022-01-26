@@ -26,7 +26,6 @@ class EnvironmentManager extends ApplicationManager
         $this->dotenv = new Dotenv();
         $this->dotenv->usePutenv(true);
         $this->config = new Config([],false);
-        $this->loadStartupConfigs();
     }
 
     public function getRedisConfig():Config
@@ -90,6 +89,7 @@ class EnvironmentManager extends ApplicationManager
         $envFile = $this->getApplicationCore()->getRootPath()
             .DIRECTORY_SEPARATOR.'athena.env';
         $this->dotenv->load($envFile);
+        $this->loadStartupConfigs();
     }
 
     public function init(): void
