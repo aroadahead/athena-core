@@ -52,13 +52,13 @@ abstract class AbstractModule
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener -> attach($app -> getEventManager());
         $modConfigFile = realpath($this -> dir . '/../') . '/config/athena.module.config.php';
-        if(file_exists($modConfigFile)){
+        if (file_exists($modConfigFile)) {
             $config = new Config(include_once $modConfigFile);
             if (isset($config -> listeners)) {
                 foreach ($config -> listeners as $listener) {
                     if ($listener -> enabled) {
                         $service = $app -> getServiceManager() -> get($listener -> service);
-                        $service -> attach($app -> getEventManager());
+                        $service -> attach($app -> getEventManager(), $listener -> priority);
                     }
                 }
             }

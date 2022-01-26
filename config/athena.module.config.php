@@ -2,6 +2,6 @@
 return [
     'module' => ['version' => '0.0.1'],
     'listeners' => [
-        ['service'=>'bar','enabled'=>false]
+        ['service'=>'coreListener','enabled'=>true,'priority'=>10000]
     ],
 ];
