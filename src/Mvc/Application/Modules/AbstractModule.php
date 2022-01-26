@@ -69,14 +69,17 @@ abstract class AbstractModule
             }
             $cache -> removeData($flushKey);
         }
-        if ($cache -> hasData($modConfigKey)) {
+        $env = $this -> applicationCore -> getEnvironmentManager();
+        if ($cache -> hasData($modConfigKey) && !$env -> isDevelopmentEnvironment()) {
             $config = $cache -> getDataAsArrayOrObject($modConfigKey);
         } else {
             $modConfigFile = $this -> applicationCore -> getFilesystemManager()
                     -> realPath($this -> dir . '/../') . '/config/athena.module.config.php';
             if (file_exists($modConfigFile)) {
                 $config = new Config(include_once $modConfigFile);
-                $cache -> setDataAsArrayOrObject($modConfigKey, $config);
+                if (!$env -> isDevelopmentEnvironment()) {
+                    $cache -> setDataAsArrayOrObject($modConfigKey, $config);
+                }
             } else {
                 $config = new Config([], true);
             }

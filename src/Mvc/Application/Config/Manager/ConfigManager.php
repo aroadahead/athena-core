@@ -11,13 +11,10 @@ use AthenaCore\Mvc\Application\Config\Loader\FileLoader;
 use AthenaCore\Mvc\Application\Config\Lookup\NodeLookup;
 use Exception;
 use Laminas\Config\Config;
-use Laminas\Json\Json;
-use PhpParser\JsonDecoder;
 use phpseclib3\Exception\FileNotFoundException;
 use function array_walk;
 use function is_dir;
 use function is_file;
-use function var_dump;
 
 class ConfigManager extends ApplicationManager
 {
@@ -91,11 +88,14 @@ class ConfigManager extends ApplicationManager
                 throw new Exception("Error flushing config cache data.");
             }
         }
-        if ($cache -> hasData('config')) {
-            $this -> merge($cache->getDataAsArrayOrObject('config'));
+        $env = $this -> applicationCore -> getEnvironmentManager();
+        if ($cache -> hasData('config') && !$env -> isDevelopmentEnvironment()) {
+            $this -> merge($cache -> getDataAsArrayOrObject('config'));
         } else {
             $this -> load($configDir, ['laminas']);
-            $cache -> setDataAsArrayOrObject('config',$this->masterConfig);
+            if (!$env -> isDevelopmentEnvironment()) {
+                $cache -> setDataAsArrayOrObject('config', $this -> masterConfig);
+            }
         }
     }
 

@@ -17,6 +17,11 @@ class EnvironmentManager extends ApplicationManager
     protected string $versionName;
     protected Dotenv $dotenv;
     protected Config $config;
+    public const DEVELOPMENT='development';
+    public const STAGING='staging';
+    public const PRODUCTION='production';
+    public const UAT='uat';
+    public const PSR='psr';
 
     use JsLocalStorageTrait;
 
@@ -81,6 +86,36 @@ class EnvironmentManager extends ApplicationManager
             throw new RequiredEnvNotFound("Required env not found: $key");
         }
         return $val;
+    }
+
+    public function getEnvironment():string
+    {
+        return $this->config->environment;
+    }
+
+    public function isDevelopmentEnvironment():bool
+    {
+        return ($this->getEnvironment()===self::DEVELOPMENT);
+    }
+
+    public function isStagingEnvironment():bool
+    {
+        return ($this->getEnvironment()===self::STAGING);
+    }
+
+    public function isProductionEnvironment():bool
+    {
+        return ($this->getEnvironment()===self::PRODUCTION);
+    }
+
+    public function isUatEnvironment():bool
+    {
+        return ($this->getEnvironment()===self::UAT);
+    }
+
+    public function isPsrEnvironment():bool
+    {
+        return ($this->getEnvironment()===self::PSR);
     }
 
 
