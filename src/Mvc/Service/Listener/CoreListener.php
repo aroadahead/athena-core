@@ -32,11 +32,11 @@ class CoreListener extends AbstractServiceListener
         $controller = $moduleParts[1];
         $action = $routeMatch -> getParam('action');
         $log = $this -> container -> get('log');
-        $log -> info("Dispatching Controller Class: " . $routeMatch -> getParam('controller'));
-        $log -> info("Dispatching route matchedName: {$routeMatchedName}");
-        $log -> info("Dispatching route module: {$module}");
-        $log -> info("Dispatching route controller: {$controller}");
-        $log -> info("Dispatching route action: {$action}");
+        $log -> info("Controller Class: " . $routeMatch -> getParam('controller'));
+        $log -> info("Route matchedName: {$routeMatchedName}");
+        $log -> info("Route module: {$module}");
+        $log -> info("Route controller: {$controller}");
+        $log -> info("Route action: {$action}");
         $tmp = $routeMatch -> getParams();
         unset($tmp['controller'], $tmp['action']);
         $log -> info("Dispatching route params: " . Json ::encode($tmp));
