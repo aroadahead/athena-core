@@ -10,6 +10,7 @@ use Laminas\ModuleManager\ModuleEvent;
 use Laminas\ModuleManager\ModuleManagerInterface;
 use Laminas\Mvc\ModuleRouteListener;
 use Poseidon\Poseidon;
+use SplPriorityQueue;
 use function file_exists;
 
 abstract class AbstractModule
@@ -86,35 +87,42 @@ abstract class AbstractModule
             }
         }
         $sm = $app -> getServiceManager();
+        $log = $this -> applicationCore -> getLogManager();
         if (isset($config -> commands)) {
+            $queue = new SplPriorityQueue();
             foreach ($config -> commands as $command) {
                 if ($command -> enabled) {
-                    $this -> applicationCore -> getLogManager() -> debug(
-                        "{$this->namespaceName}: Executing Command {$command -> service} with args: "
-                        .Json::encode($command->args).'.');
-                    $service = $sm -> get($command -> service);
-                    $service -> setArgs($command -> args);
-                    $service -> execute();
-                    $this -> applicationCore -> getLogManager() -> debug(
-                        "{$this->namespaceName}: Command {$command -> service} executed.");
+                    $queue -> insert($command, $command -> priority);
+                    $log -> debug("{$this->namespaceName}: Command {$command -> service} 
+                        added to queue with priority {$command->priority}.");
                 } else {
-                    $this -> applicationCore -> getLogManager() -> debug(
-                        "{$this->namespaceName}: Command {$command -> service} not enabled.");
+                    $log -> debug("{$this->namespaceName}: Command {$command -> service} not added to queue.");
                 }
+            }
+            $queue -> top();
+            while ($queue -> valid()) {
+                $command = $queue -> current();
+                $log -> debug(
+                    "{$this->namespaceName}: Executing Command {$command -> service} with args: "
+                    . Json ::encode($command -> args) . '.');
+                $service = $sm -> get($command -> service);
+                $service -> setArgs($command -> args);
+                $service -> execute();
+                $log -> debug(
+                    "{$this->namespaceName}: Command {$command -> service} executed.");
+                $queue->next();
             }
         }
         if (isset($config -> listeners)) {
             foreach ($config -> listeners as $listener) {
                 if ($listener -> enabled) {
-                    $this -> applicationCore -> getLogManager() -> debug(
-                        "{$this->namespaceName}: Attaching service {$listener->service}.");
+                    $log -> debug("{$this->namespaceName}: Attaching service {$listener->service} with 
+                    priority {$listener->priority}.");
                     $service = $sm -> get($listener -> service);
                     $service -> attach($em, $listener -> priority);
-                    $this -> applicationCore -> getLogManager() -> debug(
-                        "{$this->namespaceName}: {$listener->service} service attached.");
+                    $log -> debug("{$this->namespaceName}: {$listener->service} service attached.");
                 } else {
-                    $this -> applicationCore -> getLogManager() -> debug(
-                        "{$this->namespaceName}: {$listener->service} service not enabled.");
+                    $log -> debug("{$this->namespaceName}: {$listener->service} service not enabled.");
                 }
             }
         }
