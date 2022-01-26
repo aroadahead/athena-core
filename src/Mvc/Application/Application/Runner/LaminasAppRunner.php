@@ -12,8 +12,8 @@ class LaminasAppRunner extends ApplicationCore
     {
         $this -> userManager -> addJsLocalStorageItem('locale', 'en_US');
         $this -> userManager -> addJsLocalStorageItem('pubKey', '6asd68d68ddd6saadd79asd7das79ads9');
-        $this -> environmentManager -> addJsLocalStorageItem('version', '0.0.1');
-        $this -> environmentManager -> addJsLocalStorageItem('dist', 'shard');
+        $this -> environmentManager -> addJsLocalStorageItem('version', $this->environmentManager->getVersionNumber());
+        $this -> environmentManager -> addJsLocalStorageItem('dist', $this->environmentManager->getVersionName());
         $this -> configManager -> facade() -> addJsLocalStorageItem('configItem', 'someVal');
 
         $appConfig = $this -> configManager -> lookup('laminas.application', true);
