@@ -78,15 +78,14 @@ class EnvironmentManager extends ApplicationManager
 
     public function setup(): void
     {
-        // TODO: Implement setup() method.
+        $envFile = $this->getApplicationCore()->getRootPath()
+            .DIRECTORY_SEPARATOR.'athena.env';
+        $this->dotenv->load($envFile);
     }
 
     public function init(): void
     {
-        $envFile = $this->applicationCore->getFilesystemManager()
-            ->getDirectoryPaths()->facade()->root()
-            .DIRECTORY_SEPARATOR.'athena.env';
-        $this->dotenv->load($envFile);
+
     }
 
     public function boot(): void
