@@ -73,12 +73,12 @@ abstract class ApplicationCore
 
     public function setContainer(ContainerInterface $container)
     {
-        $this->container = $container;
+        $this->laminasManager->setContainer($container);
     }
 
     public function container():ContainerInterface
     {
-        return $this->container;
+        return $this->laminasManager->getContainer();
     }
 
     public function setup(): self
