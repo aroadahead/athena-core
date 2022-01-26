@@ -32,6 +32,8 @@ class CacheManager extends ApplicationManager
     {
         if($this->hasData($key)){
             $this->removeData($key);
+        } else {
+            $this->applicationCore->getLogManager()->debug("Redis key $key not found and not deleted.");
         }
     }
 
