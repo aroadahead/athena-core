@@ -39,7 +39,7 @@ class CoreListener extends AbstractServiceListener
         $log -> info("Dispatching route action: {$action}");
         $tmp = $routeMatch -> getParams();
         unset($tmp['controller'], $tmp['action']);
-        $log -> info("Dispatching with route params: " . Json ::encode($tmp));
+        $log -> info("Dispatching route params: " . Json ::encode($tmp));
 
         $registry = Poseidon ::registry();
         if (!$registry -> has('app.route.matchedName')) {
