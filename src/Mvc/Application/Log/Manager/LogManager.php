@@ -101,8 +101,6 @@ class LogManager extends ApplicationManager
         }
         $writer = new Noop();
         $this -> logger -> addWriter($writer);
-        $this->logger->info("Logging info message.");
-        $this->logger->debug("Logging debug message.");
         $this -> facade = new Facade($this);
     }
 
