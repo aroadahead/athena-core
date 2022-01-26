@@ -100,9 +100,9 @@ class EnvironmentManager extends ApplicationManager
         return ($this->getEnvironment()===self::PSR);
     }
 
-    public function getPaths():Config
+    public function getPaths():array
     {
-        return $this->config->paths;
+        return $this->config->paths->toArray();
     }
 
 

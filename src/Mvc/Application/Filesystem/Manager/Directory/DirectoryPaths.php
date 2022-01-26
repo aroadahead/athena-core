@@ -4,7 +4,6 @@ namespace AthenaCore\Mvc\Application\Filesystem\Manager\Directory;
 
 use AthenaCore\Mvc\Application\Filesystem\Manager\Directory\Exception\PathNotExists;
 use AthenaCore\Mvc\Application\Filesystem\Manager\Directory\Facade\Facade;
-use Laminas\Config\Config;
 use function array_walk;
 use function is_dir;
 use function mkdir;
@@ -19,17 +18,17 @@ class DirectoryPaths extends \Poseidon\Data\DataObject
         parent ::__construct($data);
     }
 
-    public function loadPaths(Config $paths): void
+    public function loadPaths(array $paths): void
     {
         array_walk($paths, function ($item, $key) {
-            if (!is_dir($item->path)) {
-                if($item->create){
-                    mkdir($item->path,$item->mode);
+            if (!is_dir($item['path'])) {
+                if ($item['create']) {
+                    mkdir($item['path'], $item['mode']);
                 } else {
-                    throw new \Exception("path {$item->path} does not exist!");
+                    throw new \Exception("path {$item['path']} does not exist!");
                 }
             }
-            $this -> setItem($key, $item->path);
+            $this -> setItem($key, $item['path']);
         });
         $this -> facade = new Facade($this);
     }
