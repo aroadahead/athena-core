@@ -12,10 +12,12 @@ use AthenaCore\Mvc\Application\Config\Lookup\NodeLookup;
 use Exception;
 use Laminas\Config\Config;
 use Laminas\Json\Json;
+use PhpParser\JsonDecoder;
 use phpseclib3\Exception\FileNotFoundException;
 use function array_walk;
 use function is_dir;
 use function is_file;
+use function var_dump;
 
 class ConfigManager extends ApplicationManager
 {
@@ -90,12 +92,14 @@ class ConfigManager extends ApplicationManager
             }
         }
         if ($cache -> hasData('config')) {
-            $jsonDecoded = Json::decode($cache->getData('config'),Json::TYPE_ARRAY);
-            $this->merge(new Config($jsonDecoded));
+            $config = Json::decode($cache->getData('config'),Json::TYPE_ARRAY);
+            $config = new Config($config);
+            var_dump($config->toArray());die();
+            $this -> merge($config);
         } else {
-            $this -> load($configDir);
-            $jsonEncoded = Json::encode($this->masterConfig->toArray());
-            $cache->setData('config',$jsonEncoded);
+            $this -> load($configDir, ['laminas']);
+            $json = Json::encode($this->masterConfig->toArray());
+            $cache -> setData('config',$json);
         }
     }
 
