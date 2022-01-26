@@ -90,7 +90,7 @@ class ConfigManager extends ApplicationManager
             }
         }
         if ($cache -> hasData('config')) {
-            $arr = (array)Json::decode($cache->getData('config'));
+            $arr = Json::decode($cache->getData('config'),Json::TYPE_ARRAY);
             $config = new Config($arr,false);
             $this -> merge($config);
         } else {
