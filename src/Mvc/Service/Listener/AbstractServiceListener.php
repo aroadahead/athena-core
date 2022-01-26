@@ -35,6 +35,6 @@ abstract class AbstractServiceListener extends \Laminas\EventManager\AbstractLis
 
     public function markTriggered(): void
     {
-        $this -> container -> get('log') -> info("Listener {$this->clazzName} triggered with {$this->eventName} MvcEvent");
+        $this -> container -> get('log') -> info("Listener {$this->clazzName} triggered with mvc listener {$this->eventName}.");
     }
 }
