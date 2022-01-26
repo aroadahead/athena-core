@@ -16,12 +16,9 @@ class DirectoryPaths extends \Poseidon\Data\DataObject
         parent ::__construct($data);
     }
 
-    public function loadPaths(array $paths, array $overridePaths): void
+    public function loadPaths(array $paths): void
     {
         array_walk($paths, function ($item, $key) {
-            $this -> setItem($key, $item);
-        });
-        array_walk($overridePaths, function ($item, $key) {
             $this -> setItem($key, $item);
         });
         $this->facade = new Facade($this);
