@@ -51,7 +51,7 @@ abstract class AbstractModule
         $app = $e -> getApplication();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener -> attach($app -> getEventManager());
-        $modConfigFile = realpath($this -> dir . '/../') . '/config/athena.config.php';
+        $modConfigFile = realpath($this -> dir . '/../') . '/config/athena.module.config.php';
         if(file_exists($modConfigFile)){
             $config = new Config(include_once $modConfigFile);
             if (isset($config -> listeners)) {
