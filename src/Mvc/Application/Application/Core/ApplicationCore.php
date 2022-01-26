@@ -96,6 +96,7 @@ abstract class ApplicationCore
     public function boot(): self
     {
         $this -> bootManagers();
+        $this->logManager->info("Athena Core Loaded.");
         return $this;
     }
 
