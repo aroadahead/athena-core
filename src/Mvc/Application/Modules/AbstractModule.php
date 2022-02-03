@@ -9,6 +9,7 @@ use Laminas\Json\Json;
 use Laminas\ModuleManager\ModuleEvent;
 use Laminas\ModuleManager\ModuleManagerInterface;
 use Laminas\Mvc\ModuleRouteListener;
+use Laminas\Mvc\MvcEvent;
 use Poseidon\Poseidon;
 use SplPriorityQueue;
 use function file_exists;
@@ -128,7 +129,19 @@ abstract class AbstractModule
                 }
             }
         }
+        $em -> attach('render', [$this, 'registerJsonStrategy'], 100);
         $this -> configMaster = $config;
+    }
+
+    public function registerJsonStrategy(MvcEvent $e)
+    {
+        $app          = $e->getTarget();
+        $locator      = $app->getServiceManager();
+        $view         = $locator->get('Laminas\View\View');
+        $jsonStrategy = $locator->get('ViewJsonStrategy');
+
+        // Attach strategy, which is a listener aggregate, at high priority
+        $jsonStrategy->attach($view->getEventManager(), 100);
     }
 
     public function loadModule(ModuleEvent $e)
