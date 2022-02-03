@@ -157,8 +157,8 @@ class TableGateway extends BridgeTableGateway
             $table = strtolower($filter -> filter($clazz)) . 's';
         }
 
-        $this -> masterAdapter = GlobalAdapterFeature ::getAdapter();
-        $this -> slaveAdapter = GlobalAdapterFeature ::getAdapter();
+        $this -> masterAdapter = GlobalAdapterFeature ::getStaticAdapter();
+        $this -> slaveAdapter = GlobalAdapterFeature ::getStaticAdapter();
         $this -> sql = new Sql($this -> masterAdapter, $table);
         $this -> masterSql = $this -> sql;
         $this -> slaveSql = new Sql($this -> slaveAdapter, $table);
