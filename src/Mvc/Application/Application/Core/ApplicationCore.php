@@ -14,6 +14,7 @@ use AthenaCore\Mvc\Application\Filesystem\Manager\FilesystemManager;
 use AthenaCore\Mvc\Application\Laminas\Manager\LaminasManager;
 use AthenaCore\Mvc\Application\Log\Manager\LogManager;
 use AthenaCore\Mvc\Application\Modules\Manager\ModulesManager;
+use AthenaCore\Mvc\Application\Service\Manager\ServiceManager;
 use AthenaCore\Mvc\Application\User\Manager\UserManager;
 use JetBrains\PhpStorm\Pure;
 use Psr\Container\ContainerInterface;
@@ -32,6 +33,7 @@ abstract class ApplicationCore
     protected LaminasManager $laminasManager;
     protected ApiManager $apiManager;
     protected ModulesManager $modulesManager;
+    protected ServiceManager $serviceManager;
     protected ContainerInterface $container;
 
     protected array $managers = [];
@@ -49,6 +51,7 @@ abstract class ApplicationCore
         $this -> laminasManager = new LaminasManager();
         $this -> apiManager = new ApiManager();
         $this -> modulesManager = new ModulesManager();
+        $this -> serviceManager = new ServiceManager();
         $this -> managers = ManagerManifest ::getManagerManifest();
     }
 
