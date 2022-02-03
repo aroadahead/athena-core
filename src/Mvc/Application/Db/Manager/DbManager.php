@@ -6,6 +6,7 @@ namespace AthenaCore\Mvc\Application\Db\Manager;
 
 use AthenaCore\Mvc\Application\Application\Manager\ApplicationManager;
 use Laminas\Db\Adapter\Adapter;
+use Laminas\Db\TableGateway\Feature\GlobalAdapterFeature;
 
 class DbManager extends ApplicationManager
 {
@@ -17,6 +18,8 @@ class DbManager extends ApplicationManager
         $config = $this -> applicationCore -> getConfigManager() -> lookup('db');
         $this -> masterConnection = new ConnectionHandler($config -> master);
         $this -> slaveConnection = new ConnectionHandler($config -> slave);
+
+        GlobalAdapterFeature::setStaticAdapter($this->masterAdapter());
     }
 
     public function init(): void
