@@ -48,10 +48,10 @@ class NodeLookup
         $parts = explode('.', $node);
         foreach ($parts as $part) {
             if ($ret instanceof Config) {
-                $ret = $ret -> get($part, false);
-                if (!$ret) {
+                if(!$ret->offsetExists($part)){
                     throw new NodeNotFound("config node: $node not found!");
                 }
+                $ret = $ret -> get($part);
             }
             $this -> cache -> setItem($node, $ret);
         }
