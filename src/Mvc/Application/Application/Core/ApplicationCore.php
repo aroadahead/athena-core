@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AthenaCore\Mvc\Application\Application\Core;
 
 use AthenaCore\Mvc\Application\Api\Manager\ApiManager;

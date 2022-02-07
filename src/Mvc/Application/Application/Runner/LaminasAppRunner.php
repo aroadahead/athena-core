@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace AthenaCore\Mvc\Application\Application\Runner;
 
@@ -10,7 +11,7 @@ use Poseidon\Poseidon;
 class LaminasAppRunner extends ApplicationCore
 {
 
-    public function deploy()
+    public function deploy():void
     {
         $this -> userManager -> addJsLocalStorageItem('locale', $this -> environmentManager -> getDefaultLocale());
         $this -> userManager -> addJsLocalStorageItem('pubKey', '6asd68d68ddd6saadd79asd7das79ads9');
