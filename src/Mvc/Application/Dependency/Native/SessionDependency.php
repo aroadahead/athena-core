@@ -3,6 +3,7 @@
 namespace AthenaCore\Mvc\Application\Dependency\Native;
 
 use Laminas\Config\Config;
+use Laminas\Session\Config\SessionConfig;
 use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Container;
 use Laminas\Session\SessionManager;
@@ -21,6 +22,18 @@ class SessionDependency extends AbstractDependency implements DependencyAware
             $sessionManager = new SessionManager($config);
             $this -> applicationContainer -> getLogManager() -> debug("SessionManager initialized using " .
                 "file storage");
+        } elseif ($this -> sessionConfig -> use_redis) {
+            $config = new SessionConfig();
+            $redisConfigs = $this -> applicationContainer -> getEnvironmentManager() -> getRedisConfig();
+            $config -> setOptions($this -> sessionConfig -> configData -> toArray());
+            $config -> setOptions($this -> sessionConfig -> redis_handler -> toArray());
+            $config -> setOptions([
+                'phpSaveHandler' => 'redis',
+                'savePath' => sprintf("%s://%s:%d?weight=1&timeout=1", $redisConfigs -> scheme,
+                    $redisConfigs -> host, $redisConfigs -> port)]);
+            $sessionManager = new SessionManager($config);
+            $this -> applicationContainer -> getLogManager() -> debug("SessionManager initialized using " .
+                "redis storage");
         }
         $validators = $this -> sessionConfig -> validators;
         foreach ($validators as $validator) {
