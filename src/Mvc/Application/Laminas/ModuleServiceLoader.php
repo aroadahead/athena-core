@@ -21,6 +21,6 @@ class ModuleServiceLoader
             $moduleServiceClazz = $this -> container -> get('module.service.' . $moduleService);
             $this -> modulesLoaded -> setItem($moduleService, $moduleServiceClazz);
         }
-        return $this -> modulesLoaded -> getItem('module.service.' . $moduleService);
+        return $this -> modulesLoaded -> getItem($moduleService);
     }
 }
