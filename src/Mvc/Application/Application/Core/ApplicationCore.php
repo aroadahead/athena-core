@@ -8,6 +8,7 @@ use AthenaCore\Mvc\Application\Application\Manager\ApplicationManager;
 use AthenaCore\Mvc\Application\Cache\Manager\CacheManager;
 use AthenaCore\Mvc\Application\Config\Manager\ConfigManager;
 use AthenaCore\Mvc\Application\Db\Manager\DbManager;
+use AthenaCore\Mvc\Application\Dependency\Manager\DependencyManager;
 use AthenaCore\Mvc\Application\Design\Manager\DesignManager;
 use AthenaCore\Mvc\Application\Environment\Manager\EnvironmentManager;
 use AthenaCore\Mvc\Application\Filesystem\Manager\FilesystemManager;
@@ -34,6 +35,7 @@ abstract class ApplicationCore
     protected ApiManager $apiManager;
     protected ModulesManager $modulesManager;
     protected ServiceManager $serviceManager;
+    protected DependencyManager $dependencyManager;
     protected ContainerInterface $container;
 
     protected array $managers = [];
@@ -52,6 +54,7 @@ abstract class ApplicationCore
         $this -> apiManager = new ApiManager();
         $this -> modulesManager = new ModulesManager();
         $this -> serviceManager = new ServiceManager();
+        $this -> dependencyManager = new DependencyManager();
         $this -> managers = ManagerManifest ::getManagerManifest();
     }
 
@@ -230,6 +233,11 @@ abstract class ApplicationCore
     public function getModulesManager(): ModulesManager
     {
         return $this -> modulesManager;
+    }
+
+    public function getDependencyManager(): DependencyManager
+    {
+        return $this -> dependencyManager;
     }
 
 }
