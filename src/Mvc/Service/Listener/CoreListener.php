@@ -61,7 +61,8 @@ class CoreListener extends AbstractServiceListener
         if (!$registry -> has('app.route.action')) {
             $registry -> add('app.route.action', $action);
         }
-        $serverVars = $e->getRequest()->getServer();
+        $serverVars = ['UNIQUE_ID', 'HTTP_USER_AGENT', 'SERVER_ADDR', 'REMOTE_ADDR', 'REQUEST_TIME','SERVER_NAME',
+            'SERVER_PROTOCOL','QUERY_STRING','SERVER_SOFTWARE'];
         foreach ($serverVars as $var) {
             $key = "app.server." . strtolower(str_replace('_', '.', $var));
             $val = $e -> getRequest() -> getServer($var);
