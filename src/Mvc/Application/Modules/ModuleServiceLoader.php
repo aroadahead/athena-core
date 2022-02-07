@@ -1,6 +1,6 @@
 <?php
 
-namespace AthenaCore\Mvc\Application\Laminas;
+namespace AthenaCore\Mvc\Application\Modules;
 
 use AthenaCore\Mvc\Service\MvcService;
 use Poseidon\Data\DataObject;

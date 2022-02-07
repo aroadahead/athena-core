@@ -100,6 +100,6 @@ abstract class MvcController extends AbstractActionController
             $module = $this -> rootNamespace;
         }
 
-        return $this -> container -> get('services.moduleServiceLoader') -> load($module);
+        return $this -> container -> get('modules') -> moduleLoader() -> load($module);
     }
 }

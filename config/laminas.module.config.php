@@ -16,8 +16,7 @@ return [
     'service_manager' => [
         'factories' => [
             'coreListener' => CoreListenerFactory::class,
-            'redisDeleteCommand' => RedisDeleteCommandFactory::class,
-            'services.moduleServiceLoader' => ModuleServiceLoaderFactory::class
+            'redisDeleteCommand' => RedisDeleteCommandFactory::class
         ]
     ],
     'router' => [],
