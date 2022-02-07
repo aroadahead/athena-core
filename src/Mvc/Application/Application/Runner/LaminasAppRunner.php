@@ -18,8 +18,9 @@ class LaminasAppRunner extends ApplicationCore
         $this -> environmentManager -> addJsLocalStorageItem('dist', $this -> environmentManager -> getVersionName());
         $this -> configManager -> facade() -> addJsLocalStorageItem('configItem', 'someVal');
 
-        $appConfig = $this -> configManager -> lookup('laminas.application', true);
-        $appConfig['modules'] = $this -> configManager -> lookup('laminas.modules', true);
+        $laminasConfig = $this -> configManager -> facade() -> laminasConfig();
+        $appConfig = $laminasConfig -> application -> toArray();
+        $appConfig['modules'] = $laminasConfig -> modules -> toArray();
         $app = Application ::init($appConfig);
 
         $this -> setContainer($app -> getServiceManager());
