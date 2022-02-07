@@ -18,7 +18,8 @@ class SessionDependency extends AbstractDependency implements DependencyAware
             $config = new StandardConfig();
             $config -> setOptions($this -> sessionConfig -> configData -> toArray());
             $sessionManager = new SessionManager($config);
-            $this -> applicationContainer -> getLogManager() -> debug("SessionManager using file storage");
+            $this -> applicationContainer -> getLogManager() -> debug("SessionManager initialized using " .
+                "file storage");
         }
         $validators = $this -> sessionConfig -> validators;
         foreach ($validators as $validator) {
