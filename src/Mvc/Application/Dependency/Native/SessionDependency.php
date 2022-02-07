@@ -27,6 +27,7 @@ class SessionDependency extends AbstractDependency implements DependencyAware
                 $clazz = $validator -> clazz;
                 $sessionManager -> getValidatorChain()
                     -> attach('session.validate', array(new $clazz(), 'isValid'));
+                $this->applicationContainer->getLogManager()->debug("Added session validator: $clazz");
             }
         }
         $sessionManager -> start();
