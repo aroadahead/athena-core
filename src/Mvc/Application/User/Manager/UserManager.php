@@ -11,22 +11,21 @@ class UserManager extends ApplicationManager
 {
     use JsLocalStorageTrait;
 
-    protected ?Container $container;
+    protected ?Container $container=null;
 
     public function __construct()
     {
         $this -> jsLocalStorage = new DataObject();
-        $this -> container = new Container('user');
     }
 
     public function setup(): void
     {
-        // TODO: Implement setup() method.
+        $this -> container = new Container('user');
     }
 
     public function init(): void
     {
-        // TODO: Implement init() method.
+
     }
 
     public function boot(): void

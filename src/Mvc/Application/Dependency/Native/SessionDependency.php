@@ -7,6 +7,7 @@ use Laminas\Session\Config\SessionConfig;
 use Laminas\Session\Config\StandardConfig;
 use Laminas\Session\Container;
 use Laminas\Session\SessionManager;
+use function sprintf;
 
 class SessionDependency extends AbstractDependency implements DependencyAware
 {
@@ -14,6 +15,12 @@ class SessionDependency extends AbstractDependency implements DependencyAware
 
     public function init()
     {
+
+    }
+
+    public function setup()
+    {
+        $this -> sessionConfig = $this -> applicationContainer -> getConfigManager() -> lookup('sessions');
         $sessionManager = null;
         if ($this -> sessionConfig -> use_files) {
             $config = new StandardConfig();
@@ -48,11 +55,6 @@ class SessionDependency extends AbstractDependency implements DependencyAware
         Container ::setDefaultManager($sessionManager);
         $sessionManager -> regenerateId(true);
         $this -> applicationContainer -> getLogManager() -> debug("SessionManager initialized");
-    }
-
-    public function setup()
-    {
-        $this -> sessionConfig = $this -> applicationContainer -> getConfigManager() -> lookup('sessions');
     }
 
     public function boot()
