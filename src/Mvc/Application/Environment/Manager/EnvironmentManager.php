@@ -10,35 +10,36 @@ use AthenaCore\Service\Front\JsLocalStorageTrait;
 use Laminas\Config\Config;
 use Poseidon\Data\DataObject;
 use Symfony\Component\Dotenv\Dotenv;
+use function ini_set;
 
 class EnvironmentManager extends ApplicationManager
 {
     protected Dotenv $dotenv;
     protected Config $config;
-    public const DEVELOPMENT='development';
-    public const STAGING='staging';
-    public const PRODUCTION='production';
-    public const UAT='uat';
-    public const PSR='psr';
+    public const DEVELOPMENT = 'development';
+    public const STAGING = 'staging';
+    public const PRODUCTION = 'production';
+    public const UAT = 'uat';
+    public const PSR = 'psr';
 
     use JsLocalStorageTrait;
 
     public function __construct()
     {
         $this -> jsLocalStorage = new DataObject();
-        $this->dotenv = new Dotenv();
-        $this->dotenv->usePutenv(true);
-        $this->config = new Config([],false);
+        $this -> dotenv = new Dotenv();
+        $this -> dotenv -> usePutenv(true);
+        $this -> config = new Config([], false);
     }
 
-    public function getDefaultLocale():string
+    public function getDefaultLocale(): string
     {
-        return $this->config->defaultLocale;
+        return $this -> config -> defaultLocale;
     }
 
-    public function getRedisConfig():Config
+    public function getRedisConfig(): Config
     {
-        return $this->config->redis;
+        return $this -> config -> redis;
     }
 
     /**
@@ -46,7 +47,7 @@ class EnvironmentManager extends ApplicationManager
      */
     public function getVersionNumber(): string
     {
-        return $this->config->versionNumber;
+        return $this -> config -> versionNumber;
     }
 
     /**
@@ -54,13 +55,13 @@ class EnvironmentManager extends ApplicationManager
      */
     public function getVersionName(): string
     {
-        return $this->config->versionName;
+        return $this -> config -> versionName;
     }
 
     #[Pure] public function getOptionalEnv(string $key): string|null
     {
         $val = getenv($key, true);
-        if($val !==false){
+        if ($val !== false) {
             return $val;
         }
         return null;
@@ -68,55 +69,58 @@ class EnvironmentManager extends ApplicationManager
 
     public function getRequiredEnv(string $key): string
     {
-        $val = getenv($key,true);
-        if(!$val){
+        $val = getenv($key, true);
+        if (!$val) {
             throw new RequiredEnvNotFound("Required env not found: $key");
         }
         return $val;
     }
 
-    public function getEnvironment():string
+    public function getEnvironment(): string
     {
-        return $this->config->environment;
+        return $this -> config -> environment;
     }
 
-    public function isDevelopmentEnvironment():bool
+    public function isDevelopmentEnvironment(): bool
     {
-        return ($this->getEnvironment()===self::DEVELOPMENT);
+        return ($this -> getEnvironment() === self::DEVELOPMENT);
     }
 
-    public function isStagingEnvironment():bool
+    public function isStagingEnvironment(): bool
     {
-        return ($this->getEnvironment()===self::STAGING);
+        return ($this -> getEnvironment() === self::STAGING);
     }
 
-    public function isProductionEnvironment():bool
+    public function isProductionEnvironment(): bool
     {
-        return ($this->getEnvironment()===self::PRODUCTION);
+        return ($this -> getEnvironment() === self::PRODUCTION);
     }
 
-    public function isUatEnvironment():bool
+    public function isUatEnvironment(): bool
     {
-        return ($this->getEnvironment()===self::UAT);
+        return ($this -> getEnvironment() === self::UAT);
     }
 
-    public function isPsrEnvironment():bool
+    public function isPsrEnvironment(): bool
     {
-        return ($this->getEnvironment()===self::PSR);
+        return ($this -> getEnvironment() === self::PSR);
     }
 
-    public function getPaths():array
+    public function getPaths(): array
     {
-        return $this->config->paths->toArray();
+        return $this -> config -> paths -> toArray();
     }
 
 
     public function setup(): void
     {
-        $envFile = $this->getApplicationCore()->getRootPath()
-            .DIRECTORY_SEPARATOR.'athena.env';
-        $this->dotenv->load($envFile);
-        $this->loadStartupConfigs();
+        $envFile = $this -> getApplicationCore() -> getRootPath()
+            . DIRECTORY_SEPARATOR . 'athena.env';
+        $this -> dotenv -> load($envFile);
+        $this -> loadStartupConfigs();
+        foreach ($this -> config -> inis as $ini => $val) {
+            ini_set($ini, $val);
+        }
     }
 
     public function init(): void
@@ -131,7 +135,7 @@ class EnvironmentManager extends ApplicationManager
 
     private function loadStartupConfigs()
     {
-        $file = $this->getApplicationCore()->getRootPath().DIRECTORY_SEPARATOR.'startup.configs.php';
-        $this->config->merge(new Config(include_once $file));
+        $file = $this -> getApplicationCore() -> getRootPath() . DIRECTORY_SEPARATOR . 'startup.configs.php';
+        $this -> config -> merge(new Config(include_once $file));
     }
 }
