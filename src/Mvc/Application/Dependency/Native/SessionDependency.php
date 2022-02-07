@@ -46,12 +46,8 @@ class SessionDependency extends AbstractDependency implements DependencyAware
         }
         $sessionManager -> start();
         Container ::setDefaultManager($sessionManager);
-        $container = new Container('initialized');
-        if (!isset($container -> init)) {
-            $sessionManager -> regenerateId(true);
-            $container -> init = 1;
-            $this -> applicationContainer -> getLogManager() -> debug("SessionManager initialized");
-        }
+        $sessionManager -> regenerateId(true);
+        $this -> applicationContainer -> getLogManager() -> debug("SessionManager initialized");
     }
 
     public function setup()
