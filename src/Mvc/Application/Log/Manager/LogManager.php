@@ -31,7 +31,32 @@ class LogManager extends ApplicationManager
      */
     public function setup(): void
     {
-
+        /* @var $config Config */
+        $config = $this -> applicationCore -> getConfigManager()
+            -> lookup('log');
+        $this -> logger = new Logger();
+        $fileConfig = $config -> get('file') -> toArray();
+        array_walk($fileConfig, function ($item) {
+            if ($item['enabled']) {
+                $args = $item['args'];
+                $args = array_merge($args, ['stream' => $this -> logFile($args['stream'], $item['rotate_by_day'])]);
+                $writer = new Stream($args);
+                $priority = new Priority($item['priority_level']);
+                $writer -> addFilter($priority);
+                $this -> logger -> addWriter($writer);
+            }
+        });
+        $dbConfig = $config -> get('db');
+        if ($dbConfig -> enabled) {
+            $adapter = $this -> applicationCore -> getDbManager() -> masterAdapter();
+            $writer = new Db($adapter, $dbConfig -> table_name, $dbConfig -> columnMap->toArray());
+            $priority = new Priority($dbConfig -> priority_level);
+            $writer -> addFilter($priority);
+            $this -> logger -> addWriter($writer);
+        }
+        $writer = new Noop();
+        $this -> logger -> addWriter($writer);
+        $this -> facade = new Facade($this);
     }
 
     public function emerg(string $msg): void
@@ -76,32 +101,7 @@ class LogManager extends ApplicationManager
 
     public function init(): void
     {
-        /* @var $config Config */
-        $config = $this -> applicationCore -> getConfigManager()
-            -> lookup('log');
-        $this -> logger = new Logger();
-        $fileConfig = $config -> get('file') -> toArray();
-        array_walk($fileConfig, function ($item) {
-            if ($item['enabled']) {
-                $args = $item['args'];
-                $args = array_merge($args, ['stream' => $this -> logFile($args['stream'], $item['rotate_by_day'])]);
-                $writer = new Stream($args);
-                $priority = new Priority($item['priority_level']);
-                $writer -> addFilter($priority);
-                $this -> logger -> addWriter($writer);
-            }
-        });
-        $dbConfig = $config -> get('db');
-        if ($dbConfig -> enabled) {
-            $adapter = $this -> applicationCore -> getDbManager() -> masterAdapter();
-            $writer = new Db($adapter, $dbConfig -> table_name, $dbConfig -> columnMap->toArray());
-            $priority = new Priority($dbConfig -> priority_level);
-            $writer -> addFilter($priority);
-            $this -> logger -> addWriter($writer);
-        }
-        $writer = new Noop();
-        $this -> logger -> addWriter($writer);
-        $this -> facade = new Facade($this);
+
     }
 
     public function boot(): void
