@@ -65,4 +65,9 @@ class Facade
     {
         return $this -> getPath('session', $extra);
     }
+
+    public function language(?string $extra = null): string
+    {
+        return $this -> getPath('language', $extra);
+    }
 }
