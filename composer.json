@@ -23,7 +23,8 @@
     "aroadahead/athena-dependencies": "dev-main",
     "yonatonreid/elephantsdk": "dev-main",
     "ext-mbstring": "*",
-    "ext-http": "*"
+    "ext-http": "*",
+    "ext-intl": "*"
   },
   "require-dev": {
     "doctrine/coding-standard": "^9.0.0",
