@@ -9,7 +9,7 @@ return [
         [
             'service' => 'redisDeleteCommand',
             'name' => 'DeleteFooKey',
-            'enabled' => true,
+            'enabled' => false,
             'args' => [
                 'key' => 'foo'
             ],
@@ -18,7 +18,7 @@ return [
         [
             'service' => 'redisDeleteCommand',
             'name' => 'DeleteBarKey',
-            'enabled' => true,
+            'enabled' => false,
             'args' => [
                 'key' => 'bar'
             ],
