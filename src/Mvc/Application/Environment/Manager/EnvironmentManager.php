@@ -118,8 +118,10 @@ class EnvironmentManager extends ApplicationManager
             . DIRECTORY_SEPARATOR . 'athena.env';
         $this -> dotenv -> load($envFile);
         $this -> loadStartupConfigs();
-        foreach ($this -> config -> inis as $ini => $val) {
-            ini_set($ini, $val);
+        if(isset($this->config->inis)){
+            foreach ($this -> config -> inis as $ini => $val) {
+                ini_set($ini, $val);
+            }
         }
     }
 
