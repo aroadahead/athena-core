@@ -17,6 +17,7 @@ class SessionDependency extends AbstractDependency implements DependencyAware
         if ($this -> sessionConfig -> use_files) {
             $config = new StandardConfig();
             $config -> setOptions($this -> sessionConfig -> configData -> toArray());
+            $config -> setOptions($this -> sessionConfig -> files_handler -> toArray());
             $sessionManager = new SessionManager($config);
             $this -> applicationContainer -> getLogManager() -> debug("SessionManager initialized using " .
                 "file storage");
@@ -27,7 +28,7 @@ class SessionDependency extends AbstractDependency implements DependencyAware
                 $clazz = $validator -> clazz;
                 $sessionManager -> getValidatorChain()
                     -> attach('session.validate', array(new $clazz(), 'isValid'));
-                $this->applicationContainer->getLogManager()->debug("Added session validator: $clazz");
+                $this -> applicationContainer -> getLogManager() -> debug("Added session validator: $clazz");
             }
         }
         $sessionManager -> start();
