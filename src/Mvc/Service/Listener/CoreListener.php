@@ -2,6 +2,7 @@
 
 namespace AthenaCore\Mvc\Service\Listener;
 
+use AthenaCore\Mvc\Application\Laminas\StandardContainer;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\Json\Json;
 use Laminas\Mvc\MvcEvent;
@@ -20,7 +21,7 @@ class CoreListener extends AbstractServiceListener
 
     public function onRoute(MvcEvent $e): void
     {
-        $this->markTriggered();
+        $this -> markTriggered();
         $routeMatch = $e -> getRouteMatch();
         $routeMatchedName = $routeMatch -> getMatchedRouteName();
         $realController = $routeMatch -> getParam('controller');

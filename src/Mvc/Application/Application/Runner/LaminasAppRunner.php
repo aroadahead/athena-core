@@ -3,7 +3,9 @@
 namespace AthenaCore\Mvc\Application\Application\Runner;
 
 use AthenaCore\Mvc\Application\Application\Core\ApplicationCore;
+use AthenaCore\Mvc\Application\Laminas\StandardContainer;
 use Laminas\Mvc\Application;
+use Poseidon\Poseidon;
 
 class LaminasAppRunner extends ApplicationCore
 {
@@ -19,7 +21,11 @@ class LaminasAppRunner extends ApplicationCore
         $appConfig = $this -> configManager -> lookup('laminas.application', true);
         $appConfig['modules'] = $this -> configManager -> lookup('laminas.modules', true);
         $app = Application ::init($appConfig);
+
         $this -> setContainer($app -> getServiceManager());
+        StandardContainer ::setPsrContainer($app -> getServiceManager());
+        Poseidon ::registry() -> add('container', $app -> getServiceManager());
+
         $app -> run();
     }
 }
