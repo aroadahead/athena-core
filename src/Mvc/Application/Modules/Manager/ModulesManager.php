@@ -13,8 +13,7 @@ class ModulesManager extends ApplicationManager
 
     public function setup(): void
     {
-        $this -> moduleServiceLoader = new ModuleServiceLoader($this -> applicationCore
-            -> getLaminasManager() -> getContainer());
+
     }
 
     public function init(): void
@@ -24,7 +23,7 @@ class ModulesManager extends ApplicationManager
 
     public function boot(): void
     {
-        // TODO: Implement boot() method.
+        $this -> moduleServiceLoader = new ModuleServiceLoader();
     }
 
     public function moduleLoader():ModuleServiceLoader
