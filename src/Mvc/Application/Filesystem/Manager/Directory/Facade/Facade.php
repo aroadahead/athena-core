@@ -60,4 +60,9 @@ class Facade
         }
         return $dir;
     }
+
+    public function session(?string $extra = null): string
+    {
+        return $this -> getPath('session', $extra);
+    }
 }
