@@ -16,7 +16,7 @@ namespace AthenaCore\Mvc\Application\Db\TableGateway;
  * Import Statements
  */
 
-use Application\Entity\AbstractEntity;
+use Application\Entity\ApplicationEntity;
 use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\ResultSet\HydratingResultSet;
 use Laminas\Db\Sql\Expression;
@@ -96,7 +96,7 @@ class TableGateway extends BridgeTableGateway
     /**
      * Object Prototype
      *
-     * @var AbstractEntity|TableGateway
+     * @var ApplicationEntity|TableGateway
      */
     protected mixed $objectPrototype;
 

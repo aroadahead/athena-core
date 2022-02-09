@@ -4,21 +4,12 @@ declare(strict_types=1);
 
 namespace AthenaCore\Mvc\Controller;
 
-use Elephant\Reflection\ReflectionClass;
-use Interop\Container\ContainerInterface;
-use Laminas\Filter\Word\CamelCaseToDash;
 use Laminas\Mvc\Controller\AbstractActionController;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
-use ReflectionException;
-use function strpos;
-use function strtolower;
-use function substr;
 
 /**
  * Abstract Mvc controller
  */
-abstract class MvcController extends AbstractActionController
+abstract class AbstractMvcController extends AbstractActionController
 {
     // Informational 1xx
     public const HTTP_CONTINUE = 100;
@@ -67,39 +58,4 @@ abstract class MvcController extends AbstractActionController
     public const GATEWAY_TIMEOUT = 504;
     public const UNSUPPORTED_VERSION = 505;
     public const BANDWIDTH_EXCEEDED = 509;
-
-    /**
-     * Root namespace
-     */
-    protected string $rootNamespace;
-
-    /**
-     * Camelcase to dash filter
-     */
-    protected static ?CamelCaseToDash $filter = null;
-
-    /** @throws ReflectionException */
-    public function __construct(protected ContainerInterface $container)
-    {
-        if (self ::$filter === null) {
-            self ::$filter = new CamelCaseToDash();
-        }
-
-        $namespace = (new ReflectionClass($this)) -> getNamespaceName();
-        $namespace = substr($namespace, 0, strpos($namespace, '\\'));
-        $this -> rootNamespace = strtolower(self ::$filter -> filter($namespace));
-    }
-
-    /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     */
-    protected function invokeService(?string $module = null): mixed
-    {
-        if ($module === null) {
-            $module = $this -> rootNamespace;
-        }
-
-        return $this -> container -> get('modules') -> moduleLoader() -> load($module);
-    }
 }
