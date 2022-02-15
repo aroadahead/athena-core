@@ -21,6 +21,11 @@ class Facade
         return $this -> getPath('log', $extra);
     }
 
+    public function forms(?string $extra = null): string
+    {
+        return $this -> getPath('forms', $extra);
+    }
+
     public function docs(?string $extra = null): string
     {
         return $this -> getPath('docs', $extra);
