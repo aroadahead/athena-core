@@ -2,19 +2,27 @@
 
 namespace AthenaCore\Mvc\Application\Config\Lookup;
 
-use AthenaCore\Mvc\Application\Config\Exception\NodeNotFound;
-use Laminas\Config\Config;
-use Poseidon\Data\DataObject;
+use AthenaBridge\Laminas\Config\Config;
 use function explode;
 use function trim;
 
 class NodeLookup
 {
-    protected DataObject $cache;
+    protected ConfigCache $cache;
+    protected string $separator = '.';
+    protected bool $isCustomSeparator = false;
 
     public function __construct(protected Config $masterConfig)
     {
-        $this -> cache = new DataObject();
+        $this -> cache = new ConfigCache();
+    }
+
+    public function setSeparator(string $separator): void
+    {
+        $this -> separator = $separator;
+        if ($this -> separator !== '.') {
+            $this -> isCustomSeparator = true;
+        }
     }
 
     public function set(string $node, mixed $data): void
@@ -35,25 +43,22 @@ class NodeLookup
         }
     }
 
-    public function descend(string $node = null): mixed
+    public function descend(string $node = null, mixed $default = null): mixed
     {
         $node = trim($node);
         if (empty($node)) {
             return $this -> masterConfig;
         }
-        if ($this -> cache -> hasItem($node)) {
+        if ($this -> cache -> configExists($node)) {
             return $this -> cache -> getItem($node);
         }
         $ret = $this -> masterConfig;
-        $parts = explode('.', $node);
+        $parts = explode($this -> separator, $node);
         foreach ($parts as $part) {
             if ($ret instanceof Config) {
-                if(!$ret->offsetExists($part)){
-                    throw new NodeNotFound("config node: $node not found!");
-                }
-                $ret = $ret -> get($part);
+                $ret = $ret -> getOrFail($part, $default);
             }
-            $this -> cache -> setItem($node, $ret);
+            $this -> cache -> configStore($node, $ret);
         }
         return $ret;
     }

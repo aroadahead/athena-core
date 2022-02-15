@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace AthenaCore\Mvc\Application\Config\Manager;
 
+use AthenaBridge\Laminas\Config\Config;
 use AthenaCore\Mvc\Application\Application\Manager\ApplicationManager;
 use AthenaCore\Mvc\Application\Config\Facade\Facade;
 use AthenaCore\Mvc\Application\Config\Loader\DirectoryLoader;
 use AthenaCore\Mvc\Application\Config\Loader\FileLoader;
 use AthenaCore\Mvc\Application\Config\Lookup\NodeLookup;
-use Exception;
-use Laminas\Config\Config;
-use phpseclib3\Exception\FileNotFoundException;
+use AthenaException\Config\CacheFlushErrorException;
+use AthenaException\File\FileNotFoundException;
 use function array_walk;
 use function is_dir;
 use function is_file;
@@ -42,9 +42,9 @@ class ConfigManager extends ApplicationManager
         $this -> nodeLookup -> set($node, $data);
     }
 
-    public function lookup(string $node = null, bool $asArray = false)
+    public function lookup(string $node = null, bool $asArray = false, mixed $default = null): mixed
     {
-        $data = $this -> nodeLookup -> descend($node);
+        $data = $this -> nodeLookup -> descend($node, $default);
         if ($asArray && ($data instanceof Config)) {
             return $data -> toArray();
         }
@@ -76,6 +76,8 @@ class ConfigManager extends ApplicationManager
 
     public function setup(): void
     {
+        $this -> nodeLookup -> setSeparator($this -> applicationCore
+            -> getEnvironmentManager() -> getConfigSeparator());
         $this -> facade = new Facade($this);
         $configDir = $this -> applicationCore -> getFilesystemManager()
             -> getDirectoryPaths() -> facade() -> config();
@@ -85,7 +87,7 @@ class ConfigManager extends ApplicationManager
             if (!$cache -> hasData('config')) {
                 $cache -> removeData('config.flush');
             } else {
-                throw new Exception("Error flushing config cache data.");
+                throw new CacheFlushErrorException("Error flushing config cache data.");
             }
         }
         $env = $this -> applicationCore -> getEnvironmentManager();

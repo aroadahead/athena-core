@@ -2,17 +2,15 @@
 
 namespace AthenaCore\Mvc\Application\Filesystem\Manager\Directory;
 
-use AthenaCore\Mvc\Application\Filesystem\Manager\Directory\Exception\PathNotExists;
 use AthenaCore\Mvc\Application\Filesystem\Manager\Directory\Facade\Facade;
+use AthenaException\File\PathNotFoundException;
+use Poseidon\Data\DataObject;
 use function array_walk;
-use function chgrp;
-use function chown;
 use function is_dir;
 use function mkdir;
-use function shell_exec;
 use function str_ireplace;
 
-class DirectoryPaths extends \Poseidon\Data\DataObject
+class DirectoryPaths extends DataObject
 {
     protected ?Facade $facade = null;
 
@@ -26,9 +24,9 @@ class DirectoryPaths extends \Poseidon\Data\DataObject
         array_walk($paths, function ($item, $key) {
             if (!is_dir($item['path'])) {
                 if ($item['create']) {
-                    mkdir($item['path'], $item['mode'],true);
+                    mkdir($item['path'], $item['mode'], true);
                 } else {
-                    throw new \Exception("path {$item['path']} does not exist!");
+                    throw new PathNotFoundException("path {$item['path']} does not exist!");
                 }
             }
             $this -> setItem($key, $item['path']);
@@ -43,10 +41,7 @@ class DirectoryPaths extends \Poseidon\Data\DataObject
 
     public function getPath(string $name): string
     {
-        if ($this -> hasItem($name)) {
-            return $this -> getItem($name);
-        }
-        throw new PathNotExists("$name is not a valid path key.");
+        return $this -> getOrFail($name);
     }
 
     public function __call(string $name, array $arguments)

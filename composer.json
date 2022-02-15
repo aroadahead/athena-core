@@ -24,7 +24,8 @@
     "yonatonreid/elephantsdk": "dev-main",
     "ext-mbstring": "*",
     "ext-http": "*",
-    "ext-intl": "*"
+    "ext-intl": "*",
+    "ext-dom": "*"
   },
   "require-dev": {
     "doctrine/coding-standard": "^9.0.0",

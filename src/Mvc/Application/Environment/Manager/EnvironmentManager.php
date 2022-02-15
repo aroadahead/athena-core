@@ -21,6 +21,7 @@ class EnvironmentManager extends ApplicationManager
     public const PRODUCTION = 'production';
     public const UAT = 'uat';
     public const PSR = 'psr';
+    public const CHARSET_UTF8 = 'UTF-8';
 
     use JsLocalStorageTrait;
 
@@ -35,6 +36,11 @@ class EnvironmentManager extends ApplicationManager
     public function getDefaultLocale(): string
     {
         return $this -> config -> defaultLocale;
+    }
+
+    public function getConfigSeparator(): string
+    {
+        return $this -> config -> configSeparator;
     }
 
     public function getRedisConfig(): Config
@@ -118,7 +124,7 @@ class EnvironmentManager extends ApplicationManager
             . DIRECTORY_SEPARATOR . 'athena.env';
         $this -> dotenv -> load($envFile);
         $this -> loadStartupConfigs();
-        if(isset($this->config->inis)){
+        if (isset($this -> config -> inis)) {
             foreach ($this -> config -> inis as $ini => $val) {
                 ini_set($ini, $val);
             }
