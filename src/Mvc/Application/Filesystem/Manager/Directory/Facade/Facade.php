@@ -11,6 +11,11 @@ class Facade
     {
     }
 
+    public function tmp(?string $extra = null): string
+    {
+        return $this -> getPath('tmp', $extra);
+    }
+
     public function root(?string $extra = null): string
     {
         return $this -> getPath('root', $extra);
@@ -41,6 +46,11 @@ class Facade
         return $this -> getPath('reactSrc', $extra);
     }
 
+    public function assets(?string $extra = null): string
+    {
+        return $this -> getPath('assets', $extra);
+    }
+
     public function data(?string $extra = null): string
     {
         return $this -> getPath('data', $extra);
@@ -59,6 +69,11 @@ class Facade
     public function session(?string $extra = null): string
     {
         return $this -> getPath('session', $extra);
+    }
+
+    public function vendor(?string $extra = null): string
+    {
+        return $this -> getPath('vendor', $extra);
     }
 
     public function language(?string $extra = null): string
