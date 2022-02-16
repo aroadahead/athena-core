@@ -8,6 +8,7 @@ use AthenaCore\Mvc\Application\Application\Manager\ApplicationManager;
 use AthenaCore\Mvc\Application\Environment\Manager\Exception\RequiredEnvNotFound;
 use AthenaCore\Service\Front\JsLocalStorageTrait;
 use Laminas\Config\Config;
+use Laminas\Http\PhpEnvironment\Request;
 use Poseidon\Data\DataObject;
 use Symfony\Component\Dotenv\Dotenv;
 use function ini_set;
@@ -56,6 +57,11 @@ class EnvironmentManager extends ApplicationManager
         return $this -> config -> versionNumber;
     }
 
+    public function getCurrentRequest(): Request
+    {
+        return $this -> applicationCore -> container() -> get('request');
+    }
+
     /**
      * @return string
      */
@@ -82,9 +88,9 @@ class EnvironmentManager extends ApplicationManager
         return $val;
     }
 
-    public function getCharset():string
+    public function getCharset(): string
     {
-        return $this->config->charset;
+        return $this -> config -> charset;
     }
 
     public function getEnvironment(): string
