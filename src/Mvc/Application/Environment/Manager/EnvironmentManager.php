@@ -82,6 +82,11 @@ class EnvironmentManager extends ApplicationManager
         return $val;
     }
 
+    public function getCharset():string
+    {
+        return $this->config->charset;
+    }
+
     public function getEnvironment(): string
     {
         return $this -> config -> environment;
