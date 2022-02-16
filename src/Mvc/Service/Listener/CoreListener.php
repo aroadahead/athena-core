@@ -2,7 +2,6 @@
 
 namespace AthenaCore\Mvc\Service\Listener;
 
-use AthenaCore\Mvc\Application\Laminas\StandardContainer;
 use Laminas\EventManager\EventManagerInterface;
 use Laminas\Json\Json;
 use Laminas\Mvc\MvcEvent;
@@ -61,8 +60,8 @@ class CoreListener extends AbstractServiceListener
         if (!$registry -> has('app.route.action')) {
             $registry -> add('app.route.action', $action);
         }
-        $serverVars = ['UNIQUE_ID', 'HTTP_USER_AGENT', 'SERVER_ADDR', 'REMOTE_ADDR', 'REQUEST_TIME','SERVER_NAME',
-            'SERVER_PROTOCOL','QUERY_STRING','SERVER_SOFTWARE'];
+        $serverVars = ['UNIQUE_ID', 'HTTP_USER_AGENT', 'SERVER_ADDR', 'REMOTE_ADDR', 'REQUEST_TIME', 'SERVER_NAME',
+            'SERVER_PROTOCOL', 'QUERY_STRING', 'SERVER_SOFTWARE', 'SERVER_PORT'];
         foreach ($serverVars as $var) {
             $key = "app.server." . strtolower(str_replace('_', '.', $var));
             $val = $e -> getRequest() -> getServer($var);
