@@ -14,12 +14,12 @@ class CacheFacade
 {
     protected int $dbIdx = 0;
     protected PhpSerialize $serialize;
-    protected Client $client;
+    protected ?Client $client=null;
 
     public function __construct(protected CacheManager $manager)
     {
         $this -> serialize = new PhpSerialize();
-        $this -> client = $this -> client;
+        $this -> client = $this->manager->client();
     }
 
     public function setDbIndex(int $idx): void
