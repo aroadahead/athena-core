@@ -21,6 +21,7 @@ class CacheManager extends ApplicationManager
         $config = $this -> applicationCore -> getEnvironmentManager() -> getRedisConfig() -> toArray();
         $this -> client = new Client($config);
         $this -> client -> connect();
+        $this -> facade = new CacheFacade($this);
     }
 
     public function facade(): CacheFacade
@@ -30,7 +31,7 @@ class CacheManager extends ApplicationManager
 
     public function init(): void
     {
-        $this -> facade = new CacheFacade($this);
+
     }
 
     public function client(): Client
