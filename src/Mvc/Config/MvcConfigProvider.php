@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace AthenaCore\Mvc\Config;
 
-use Elephant\Reflection\ReflectionClass;
-use Laminas\Filter\Word\CamelCaseToDash;
-use ReflectionException;
+use AthenaBridge\Laminas\Filter\Word\CamelCaseToDash;
+use ReflectionClass;
 
 /**
  * Abstract Mvc config provider
@@ -23,14 +22,13 @@ abstract class MvcConfigProvider
      */
     protected static ?CamelCaseToDash $filter = null;
 
-    /** @throws ReflectionException */
     public function __construct()
     {
-        if (self::$filter === null) {
-            self::$filter = new CamelCaseToDash();
+        if (self ::$filter === null) {
+            self ::$filter = new CamelCaseToDash();
         }
 
-        $this->formattedNamespace = self::$filter->filter((new ReflectionClass($this))->getNamespaceName());
+        $this -> formattedNamespace = self ::$filter -> filter((new ReflectionClass($this)) -> getNamespaceName());
     }
 
     /** @return array[] */

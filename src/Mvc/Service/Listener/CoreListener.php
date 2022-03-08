@@ -26,7 +26,7 @@ class CoreListener extends AbstractServiceListener
         $realController = $routeMatch -> getParam('controller');
         $className = str_replace(['\\', '_Controller_'], '_', $realController);
         $className = str_replace('Controller', '', $className);
-        $className = mb_strtolower($className, "UTF-8");
+        $className = mb_strtolower($className, $this -> container -> get('env') -> getCharset());
         $moduleParts = explode('_', $className);
         $module = $moduleParts[0];
         $controller = $moduleParts[1];

@@ -81,7 +81,7 @@ class ConfigManager extends ApplicationManager
         $this -> facade = new Facade($this);
         $configDir = $this -> applicationCore -> getFilesystemManager()
             -> getDirectoryPaths() -> facade() -> config();
-        $cache = $this -> applicationCore -> getCacheManager();
+        $cache = $this -> applicationCore -> getCacheManager()->facade();
         if ($cache -> hasData('config.flush')) {
             $cache -> removeData('config');
             if (!$cache -> hasData('config')) {
