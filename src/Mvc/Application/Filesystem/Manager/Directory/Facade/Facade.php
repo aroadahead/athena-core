@@ -71,6 +71,11 @@ class Facade
         return $this -> getPath('session', $extra);
     }
 
+    public function templates(?string $extra = null): string
+    {
+        return $this -> getPath('templates', $extra);
+    }
+
     public function vendor(?string $extra = null): string
     {
         return $this -> getPath('vendor', $extra);
