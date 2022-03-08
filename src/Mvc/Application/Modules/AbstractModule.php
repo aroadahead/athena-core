@@ -64,7 +64,7 @@ abstract class AbstractModule
         $moduleRouteListener -> attach($em);
         $modConfigKey = $this -> namespaceName . '_AthenaModuleConfig';
         $flushKey = $modConfigKey . '_flush';
-        $cache = $this -> applicationCore -> getCacheManager();
+        $cache = $this -> applicationCore -> getCacheManager()->facade();
         if ($cache -> hasData($flushKey)) {
             $cache -> removeData($modConfigKey);
             if ($cache -> hasData($modConfigKey)) {
