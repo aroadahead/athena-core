@@ -7,14 +7,13 @@ namespace AthenaCore\Mvc\Application\Cache\Manager;
 
 use AthenaCore\Mvc\Application\Application\Manager\ApplicationManager;
 use AthenaCore\Mvc\Application\Cache\Facade\CacheFacade;
-use Laminas\Serializer\Adapter\PhpSerialize;
 use Predis\Client;
 
 class CacheManager extends ApplicationManager
 {
     protected Client $client;
 
-    protected CacheFacade $facade;
+    protected ?CacheFacade $facade = null;
 
     public function setup(): void
     {
@@ -24,9 +23,9 @@ class CacheManager extends ApplicationManager
         $this -> client -> connect();
     }
 
-    public function facade():CacheFacade
+    public function facade(): CacheFacade
     {
-        return $this->facade;
+        return $this -> facade;
     }
 
     public function init(): void
