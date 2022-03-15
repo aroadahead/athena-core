@@ -10,7 +10,6 @@ use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Exception;
 use Laminas\Db\Adapter\Adapter;
 use Laminas\Db\TableGateway\Feature\GlobalAdapterFeature;
-use function sprintf;
 
 class DbManager extends ApplicationManager
 {
@@ -29,10 +28,15 @@ class DbManager extends ApplicationManager
 
         GlobalAdapterFeature ::setStaticAdapter($this -> masterAdapter());
 
-        $dsn = sprintf("mysql://%s:%s@%s/%s?charset=%s", $config -> master -> username, $config -> master -> password,
-            $config -> master -> hostname, $config -> master -> database,
-            $config -> master -> charset);
-        $this -> doctrineConnection = DriverManager ::getConnection(['url'=>$dsn]);
+        $this -> doctrineConnection = DriverManager ::getConnection([
+            'dbname' => $config -> master -> database,
+            'user' => $config -> master -> username,
+            'password' => $config -> master -> password,
+            'host' => $config -> master -> hostname,
+            'driver' => strtolower($config -> master -> driver),
+            'charset' => $config -> master -> charset,
+            'collation' => $config -> master -> collation
+        ]);
     }
 
     public function getDoctrineConnection(): Connection
