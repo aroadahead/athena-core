@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace AthenaCore\Mvc\Application\Application\Runner;
 
 use AthenaCore\Mvc\Application\Application\Core\ApplicationCore;
+use AthenaCore\Mvc\Application\Laminas\Manager\Exception\ExceptionManager;
 use AthenaCore\Mvc\Application\Laminas\StandardContainer;
 use Laminas\Mvc\Application;
 use Poseidon\Poseidon;
@@ -11,7 +12,7 @@ use Poseidon\Poseidon;
 class LaminasAppRunner extends ApplicationCore
 {
 
-    public function deploy():void
+    public function deploy(): void
     {
 //        $this -> userManager -> addJsLocalStorageItem('locale', $this -> environmentManager -> getDefaultLocale());
 //        $this -> userManager -> addJsLocalStorageItem('pubKey', '6asd68d68ddd6saadd79asd7das79ads9');
@@ -27,7 +28,7 @@ class LaminasAppRunner extends ApplicationCore
         $this -> setContainer($app -> getServiceManager());
         StandardContainer ::setPsrContainer($app -> getServiceManager());
         Poseidon ::registry() -> add('container', $app -> getServiceManager());
-
+        $this -> getLaminasManager() -> setExceptionManager(new ExceptionManager($app -> getServiceManager()));
         $app -> run();
     }
 }

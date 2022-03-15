@@ -3,6 +3,7 @@
 namespace AthenaCore\Mvc\Application\Laminas\Manager;
 
 use AthenaCore\Mvc\Application\Application\Manager\ApplicationManager;
+use AthenaCore\Mvc\Application\Laminas\Manager\Exception\ExceptionManager;
 use AthenaCore\Mvc\Application\Laminas\RouteNotFound;
 use Psr\Container\ContainerInterface;
 use function array_key_exists;
@@ -11,6 +12,17 @@ class LaminasManager extends ApplicationManager
 {
     protected ContainerInterface $container;
     protected ?array $routes = [];
+    protected ?ExceptionManager $exceptionManager = null;
+
+    public function setExceptionManager(ExceptionManager $manager):void
+    {
+        $this->exceptionManager = $manager;
+    }
+
+    public function getExceptionManager():ExceptionManager
+    {
+        return $this->exceptionManager;
+    }
 
     public function setContainer(ContainerInterface $container)
     {
