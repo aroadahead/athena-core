@@ -3,12 +3,27 @@
 namespace AthenaCore\Mvc\Application\Filesystem\Manager\Directory\Facade;
 
 use AthenaCore\Mvc\Application\Filesystem\Manager\Directory\DirectoryPaths;
+use function is_dir;
 use function str_ireplace;
 
 class Facade
 {
     public function __construct(protected DirectoryPaths $directoryPaths)
     {
+    }
+
+    public function moduleOrVendor(string $potential, ?string $extra = null): string
+    {
+        $path = $this -> modules($potential);
+        if (is_dir($path)) {
+            return $path . DIRECTORY_SEPARATOR . $extra;
+        }
+        return $this -> vendor('aroadahead/' . $potential . '/' . $extra);
+    }
+
+    public function modules(?string $extra = null): string
+    {
+        return $this -> getPath('modules', $extra);
     }
 
     public function tmp(?string $extra = null): string

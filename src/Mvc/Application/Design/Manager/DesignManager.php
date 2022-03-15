@@ -123,7 +123,7 @@ class DesignManager extends ApplicationManager
             }
         }
         return $this -> getApplicationCore() -> getFilesystemManager()
-            -> getDirectoryPaths() -> facade() -> modulePath($module, $baseTemplate);
+            -> getDirectoryPaths() -> facade() -> moduleOrVendor($module, $baseTemplate);
     }
 
     /**
