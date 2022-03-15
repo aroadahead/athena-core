@@ -15,7 +15,13 @@ abstract class MvcService
     {
     }
 
-    public function hello():string
+    public function throwException(string $class, string $msg, array $args = []): void
+    {
+        $this -> container -> get('laminas') -> getExceptionManager()
+            -> throwException($class, $msg, $args);
+    }
+
+    public function hello(): string
     {
         return 'hello';
     }

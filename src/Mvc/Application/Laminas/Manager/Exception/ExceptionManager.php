@@ -2,6 +2,7 @@
 
 namespace AthenaCore\Mvc\Application\Laminas\Manager\Exception;
 
+use Laminas\Mvc\I18n\Translator;
 use Psr\Container\ContainerInterface;
 use function vsprintf;
 
@@ -12,19 +13,18 @@ class ExceptionManager
 
     }
 
-    public function throwException(string $class, string $msg, array $args):void
+    public function throwException(string $class, string $msg, array $args): void
     {
-        $instance = $this->getExceptionInstance($class);
-        throw $instance(vsprintf($this->translate($msg),$args));
+        throw new $class(vsprintf($this -> translate($msg), $args));
     }
 
-    private function translate(string $to):string
+    private function translate(string $to): string
     {
-        return $this->container->get('MvcTranslator')->translate($to);
+        return $this -> translator() -> translate($to);
     }
 
-    private function getExceptionInstance(string $class):\Throwable
+    private function translator(): Translator
     {
-        return new $class();
+        return $this -> container -> get('MvcTranslator');
     }
 }
