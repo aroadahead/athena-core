@@ -29,8 +29,8 @@ class DbManager extends ApplicationManager
 
         GlobalAdapterFeature ::setStaticAdapter($this -> masterAdapter());
 
-        $dsn = sprintf("mysql://%s:%s@%s:%d/%s?charset=%s", $config -> master -> username, $config -> master -> password,
-            $config -> master -> hostname, $config -> master -> port, $config -> master -> database,
+        $dsn = sprintf("mysql://%s:%s@%s/%s?charset=%s", $config -> master -> username, $config -> master -> password,
+            $config -> master -> hostname, $config -> master -> database,
             $config -> master -> charset);
         $this -> doctrineConnection = DriverManager ::getConnection(['url'=>$dsn]);
     }
