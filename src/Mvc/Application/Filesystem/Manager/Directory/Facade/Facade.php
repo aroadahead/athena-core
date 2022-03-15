@@ -21,6 +21,21 @@ class Facade
         return $this -> vendor('aroadahead/' . $potential . '/' . $extra);
     }
 
+    public function doctrine(?string $extra=null):string
+    {
+        return $this->getPath('doctrine',$extra);
+    }
+
+    public function doctrineProxy(?string $extra=null):string
+    {
+        return $this->getPath('doctrine_proxies',$extra);
+    }
+
+    public function doctrineHydrator(?string $extra=null):string
+    {
+        return $this->getPath('doctrine_hydrators',$extra);
+    }
+
     public function modules(?string $extra = null): string
     {
         return $this -> getPath('modules', $extra);
