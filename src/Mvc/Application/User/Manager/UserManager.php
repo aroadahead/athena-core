@@ -4,6 +4,7 @@ namespace AthenaCore\Mvc\Application\User\Manager;
 
 use AthenaCore\Mvc\Application\Application\Manager\ApplicationManager;
 use AthenaCore\Service\Front\JsLocalStorageTrait;
+use AthenaSodium\Entity\User;
 use Laminas\Session\Container;
 use Poseidon\Data\DataObject;
 
@@ -13,9 +14,23 @@ class UserManager extends ApplicationManager
 
     protected ?Container $container=null;
 
+    protected ?User $user=null;
+
     public function __construct()
     {
         $this -> jsLocalStorage = new DataObject();
+    }
+
+    public function user():User{
+        return $this->user;
+    }
+
+    public function isActiveUser():bool
+    {
+        if($this->user === null){
+            return false;
+        }
+        return true;
     }
 
     public function setup(): void

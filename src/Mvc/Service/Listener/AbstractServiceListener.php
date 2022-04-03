@@ -10,6 +10,7 @@ abstract class AbstractServiceListener extends \Laminas\EventManager\AbstractLis
 {
     protected string $clazzName;
     protected string $eventName;
+    protected const ABSTRACT_CONTROLLER_RESOURCE = 'Laminas\Mvc\Controller\AbstractController';
 
     public function __construct(protected ContainerInterface $container)
     {
