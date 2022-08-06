@@ -113,6 +113,11 @@ class Facade extends AbstractFacadeManager
         return $this -> configData($this -> parseNode(static::APPLICATION_CONFIG, $node));
     }
 
+    public function logConfig(string $node = null): mixed
+    {
+        return $this -> configData($this -> parseNode('log', $node));
+    }
+
     public function laminasConfig(string $node = null): mixed
     {
         return $this -> configData($this -> parseNode('laminas', $node));

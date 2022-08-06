@@ -9,7 +9,7 @@ use AthenaCore\Mvc\Application\Laminas\StandardContainer;
 use Laminas\Mvc\Application;
 use Poseidon\Poseidon;
 
-class LaminasAppRunner extends ApplicationCore
+class LaminasApplication extends ApplicationCore
 {
 
     public function deploy(): void

@@ -4,22 +4,17 @@ declare(strict_types=1);
 
 namespace AthenaCore\Mvc\Application\Log\Manager;
 
+use AthenaBridge\Laminas\Config\Config;
+use AthenaBridge\Laminas\Log\Filter\Priority;
+use AthenaBridge\Laminas\Log\Logger;
+use AthenaBridge\Laminas\Log\Writer\Db;
+use AthenaBridge\Laminas\Log\Writer\Noop;
+use AthenaBridge\Laminas\Log\Writer\Stream;
 use AthenaCore\Mvc\Application\Application\Manager\ApplicationManager;
 use AthenaCore\Mvc\Application\Log\Facade;
-use DateInterval;
-use DateTime;
-use DateTimeZone;
 use Exception;
-use Laminas\Config\Config;
-use Laminas\Log\Filter\Priority;
-use Laminas\Log\Logger;
-use Laminas\Log\Writer\Db;
-use Laminas\Log\Writer\Noop;
-use Laminas\Log\Writer\Stream;
 use function array_merge;
 use function array_walk;
-use function file_exists;
-use function rename;
 
 class LogManager extends ApplicationManager
 {
@@ -33,13 +28,15 @@ class LogManager extends ApplicationManager
     {
         /* @var $config Config */
         $config = $this -> applicationCore -> getConfigManager()
-            -> lookup('log');
+            -> facade() -> logConfig();
         $this -> logger = new Logger();
         $fileConfig = $config -> get('file') -> toArray();
         array_walk($fileConfig, function ($item) {
             if ($item['enabled']) {
                 $args = $item['args'];
-                $args = array_merge($args, ['stream' => $this -> logFile($args['stream'], $item['rotate_by_day'])]);
+                $logFile = $this -> applicationCore -> getFilesystemManager()
+                    -> getDirectoryPaths() -> facade() -> log($args['stream']);
+                $args = array_merge($args, ['stream' => $logFile]);
                 $writer = new Stream($args);
                 $priority = new Priority($item['priority_level']);
                 $writer -> addFilter($priority);
@@ -49,7 +46,7 @@ class LogManager extends ApplicationManager
         $dbConfig = $config -> get('db');
         if ($dbConfig -> enabled) {
             $adapter = $this -> applicationCore -> getDbManager() -> masterAdapter();
-            $writer = new Db($adapter, $dbConfig -> table_name, $dbConfig -> columnMap->toArray());
+            $writer = new Db($adapter, $dbConfig -> table_name, $dbConfig -> columnMap -> toArray());
             $priority = new Priority($dbConfig -> priority_level);
             $writer -> addFilter($priority);
             $this -> logger -> addWriter($writer);
@@ -112,25 +109,5 @@ class LogManager extends ApplicationManager
     public function facade(): Facade
     {
         return $this -> facade;
-    }
-
-    /**
-     * @throws Exception
-     */
-    private function logFile(string $file, bool $rotateByDay = false): string
-    {
-        $logFile = $this -> applicationCore -> getFilesystemManager()
-                -> getDirectoryPaths() -> facade() -> log($file);
-        if ($rotateByDay) {
-            $tz = $this -> applicationCore -> getConfigManager() -> lookup('i18n.timezone');
-            $today = new DateTime('NOW', new DateTimeZone($tz));
-            $yesterday = $today -> sub(new DateInterval("P1D"));
-            $yesterdayDate = $yesterday -> format('Ymd');
-            $yesterdayFile = $logFile . '.' . $yesterdayDate;
-            if (!file_exists($yesterdayFile) && file_exists($logFile)) {
-                rename($logFile, $yesterdayFile);
-            }
-        }
-        return $logFile;
     }
 }
